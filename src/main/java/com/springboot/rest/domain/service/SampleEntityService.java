@@ -1,22 +1,33 @@
 package com.springboot.rest.domain.service;
 
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import org.redisson.api.RMapCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.rest.domain.dto.SampleEntityDTO;
 import com.springboot.rest.domain.port.api.SampleEntityServicePort;
 import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
 import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.mapper.SampleEntityMapper;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class SampleEntityService implements SampleEntityServicePort {
 
+	
+	
+	@Autowired
+    private RMapCache<Long, SampleEntity> userRMapCache;
+	
+	
     private static final String ENTITY_NAME = "a";
 
     private final SampleEntityPersistencePort sampleEntityPersistencePort;
@@ -29,7 +40,16 @@ public class SampleEntityService implements SampleEntityServicePort {
 
     @Override
     public SampleEntity save(SampleEntityDTO sampleEntityDTO) {
-        return sampleEntityPersistencePort.save(sampleEntityDTO);
+    	
+    	SampleEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
+    	
+    	   long random=(long) (Math.random()*(7000-4000+1)+4000);
+           this.userRMapCache.put(random, sampleEntity,60, TimeUnit.SECONDS);
+           //return userPort.createUser(user);
+           return sampleEntity;
+    	
+    	
+     //   return sampleEntityPersistencePort.save(sampleEntityDTO);
     }
 
     @Override
@@ -61,12 +81,18 @@ public class SampleEntityService implements SampleEntityServicePort {
 
     @Override
     public Optional<SampleEntity> findById(Long id) {
-        return sampleEntityPersistencePort.findById(id);
+		
+    
+    	 return Optional.ofNullable(this.userRMapCache.get(id));
+       // return sampleEntityPersistencePort.findById(id);
+		 
     }
 
     @Override
-    public void deleteById(Long id) {
-        sampleEntityPersistencePort.deleteById(id);
+    public boolean  deleteById(Long id) {
+    	 this.userRMapCache.remove(id);
+    	 return true;
+      //  sampleEntityPersistencePort.deleteById(id);
     }
 
     @Override

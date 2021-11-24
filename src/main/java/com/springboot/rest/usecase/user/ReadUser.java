@@ -1,17 +1,16 @@
 package com.springboot.rest.usecase.user;
 
-import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.UserDTO;
-import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.infrastructure.entity.User;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.springboot.rest.domain.dto.AdminUserDTO;
+import com.springboot.rest.domain.dto.UserDTO;
+import com.springboot.rest.domain.port.api.UserServicePort;
+import com.springboot.rest.infrastructure.entity.User;
 
 @Service
 @Transactional

@@ -33,6 +33,7 @@ public class SampleEntityJPAAdaptor implements SampleEntityPersistencePort {
 
     @Override
     public Optional<SampleEntity> findById(Long id) {
+    	
         return sampleEntityRepository.findById(id);
     }
 
@@ -49,8 +50,11 @@ public class SampleEntityJPAAdaptor implements SampleEntityPersistencePort {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public boolean deleteById(Long id) {
         sampleEntityRepository.deleteById(id);
+        return true;
     }
+
+
 
 }

@@ -3,7 +3,6 @@ package com.springboot.rest.domain.dto;
 
 import com.springboot.rest.infrastructure.entity.SampleEntity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,10 @@
 package com.springboot.rest.domain.port.api;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+import com.springboot.rest.domain.dto.SampleEntityDTO;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 public interface SampleEntityServicePort {
 
@@ -20,9 +18,11 @@ public interface SampleEntityServicePort {
 
     Optional<SampleEntity> findById(Long id);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 
     Optional<SampleEntity> patch(Long id, SampleEntityDTO sampleEntityDTO);
+
+	
 
 
 

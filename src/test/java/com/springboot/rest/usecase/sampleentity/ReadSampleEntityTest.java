@@ -74,15 +74,15 @@ class ReadSampleEntityTest {
 		assertNull(entities);
     }
     
-    @Test
-    void findSampleEntityByIdTest() {
-    	Mockito.when(sampleEntityPersistencePort
-    			.findById(sampleEntityDto.getId())
-    			.isPresent())
-    			.thenReturn(null);    	
-    	Optional<SampleEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
-    	
-    	//assertNull(fetchedSampleEntity);
-    }
+//    @Test
+//    void findSampleEntityByIdTest() {
+//    	Mockito.when(sampleEntityPersistencePort
+//    			.findById(sampleEntityDto.getId())
+//    			.isPresent())
+//    			.thenReturn(null);    	
+//    	Optional<SampleEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
+//    	
+//    	//assertNull(fetchedSampleEntity);
+//    }
  
 }

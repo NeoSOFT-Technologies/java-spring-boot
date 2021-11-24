@@ -1,30 +1,29 @@
 package com.springboot.rest.domain.service;
 
-import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.UserDTO;
-import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.UserPersistencPort;
-import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.infrastructure.repository.UserRepository;
-import com.springboot.rest.mapper.UserMapper;
-import com.springboot.rest.security.SecurityUtils;
-import com.springboot.rest.rest.errors.AccountResourceException;
-import com.springboot.rest.rest.errors.BadRequestAlertException;
-import com.springboot.rest.rest.errors.LoginAlreadyUsedException;
+import java.time.Instant;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tech.jhipster.security.RandomUtil;
 
-import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
+import com.springboot.rest.domain.dto.AdminUserDTO;
+import com.springboot.rest.domain.dto.UserDTO;
+import com.springboot.rest.domain.port.api.UserServicePort;
+import com.springboot.rest.domain.port.spi.UserPersistencPort;
+import com.springboot.rest.infrastructure.entity.User;
+import com.springboot.rest.mapper.UserMapper;
+import com.springboot.rest.rest.errors.AccountResourceException;
+import com.springboot.rest.rest.errors.BadRequestAlertException;
+import com.springboot.rest.rest.errors.LoginAlreadyUsedException;
+import com.springboot.rest.security.SecurityUtils;
+
+import tech.jhipster.security.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -41,7 +40,7 @@ public class UserService implements UserServicePort {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final CacheManager cacheManager;
+   // private final CacheManager cacheManager;
 
 	/*
 	 * public UserService(UserPersistencPort userRepository, PasswordEncoder
@@ -50,11 +49,11 @@ public class UserService implements UserServicePort {
 	 * cacheManager; }
 	 */
     
-    public UserService(UserPersistencPort userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, CacheManager cacheManager) {
+    public UserService(UserPersistencPort userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userPersistencePort = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.cacheManager = cacheManager;
+      //  this.cacheManager = cacheManager;
     }
 
     @Override
@@ -299,10 +298,10 @@ public class UserService implements UserServicePort {
 
     @Override
     public void clearUserCaches(User user) {
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        if (user.getEmail() != null) {
-            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-        }
+    //    Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+      //  if (user.getEmail() != null) {
+          //  Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+      //  }
     }
 
 }

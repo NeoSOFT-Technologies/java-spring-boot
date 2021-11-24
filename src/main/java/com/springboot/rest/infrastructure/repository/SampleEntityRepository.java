@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SampleEntityRepository extends JpaRepository<SampleEntity, Long> {}
+public interface SampleEntityRepository extends JpaRepository<SampleEntity, Long> {
+	
+	
+	 SampleEntity findById(long id);
+	 boolean deleteById(long id);
+}

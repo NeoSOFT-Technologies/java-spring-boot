@@ -13,7 +13,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.springboot.rest.domain.dto.SampleEntityDTO;
 import com.springboot.rest.infrastructure.entity.Authority;

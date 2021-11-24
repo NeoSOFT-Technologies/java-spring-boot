@@ -1,17 +1,9 @@
 package com.springboot.rest.rest;
 
-import com.springboot.rest.domain.dto.UserDTO;
-import com.springboot.rest.domain.port.api.AuthorityServicePort;
-import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.usecase.authority.ReadAuthority;
-import com.springboot.rest.usecase.user.CreateUser;
-import com.springboot.rest.usecase.user.DeleteUser;
-import com.springboot.rest.usecase.user.ReadUser;
-import com.springboot.rest.usecase.user.RegisterUser;
-import com.springboot.rest.usecase.user.UpdateUser;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,11 +16,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.PaginationUtil;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.springboot.rest.domain.dto.UserDTO;
+import com.springboot.rest.usecase.authority.ReadAuthority;
+import com.springboot.rest.usecase.user.CreateUser;
+import com.springboot.rest.usecase.user.DeleteUser;
+import com.springboot.rest.usecase.user.ReadUser;
+import com.springboot.rest.usecase.user.RegisterUser;
+import com.springboot.rest.usecase.user.UpdateUser;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import tech.jhipster.web.util.PaginationUtil;
 
 @RestController
 @RequestMapping("/api")

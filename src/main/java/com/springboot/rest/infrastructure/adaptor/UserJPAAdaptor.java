@@ -1,5 +1,24 @@
 package com.springboot.rest.infrastructure.adaptor;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.rest.config.Constants;
 import com.springboot.rest.domain.dto.AdminUserDTO;
 import com.springboot.rest.domain.dto.UserDTO;
@@ -10,23 +29,8 @@ import com.springboot.rest.infrastructure.repository.AuthorityRepository;
 import com.springboot.rest.infrastructure.repository.UserRepository;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import tech.jhipster.security.RandomUtil;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import tech.jhipster.security.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -43,13 +47,13 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final CacheManager cacheManager;
+  //  private final CacheManager cacheManager;
     
     private final UserMapper userMapper;
 
-    public UserJPAAdaptor(PasswordEncoder passwordEncoder, CacheManager cacheManager, UserMapper userMapper) {
+    public UserJPAAdaptor(PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
-        this.cacheManager = cacheManager;
+   //     this.cacheManager = cacheManager;
         this.userMapper = userMapper;
     }
 
@@ -222,10 +226,10 @@ public class UserJPAAdaptor implements UserPersistencPort {
     }
 
     private void clearUserCaches(User user) {
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        if (user.getEmail() != null) {
-            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-        }
+//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+//        if (user.getEmail() != null) {
+//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+//        }
     }
 
     public Optional<User> findOneByResetKey(String key) {
