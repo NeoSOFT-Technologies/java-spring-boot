@@ -394,7 +394,7 @@ class SampleEntityResourceIT {
 
     @Test
     @Transactional
-    void deleteSampleEntity() throws Exception {
+    Boolean deleteSampleEntity() throws Exception {
         // Initialize the database
         sampleEntityRepository.saveAndFlush(sampleEntity);
 
@@ -406,5 +406,6 @@ class SampleEntityResourceIT {
         // Validate the database contains one less item
         List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeDelete - 1);
+        return true;
     }
 }

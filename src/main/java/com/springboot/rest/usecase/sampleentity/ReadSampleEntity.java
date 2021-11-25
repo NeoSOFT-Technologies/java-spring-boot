@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
 import com.springboot.rest.domain.port.api.SampleEntityServicePort;
 import com.springboot.rest.infrastructure.entity.SampleEntity;
 
