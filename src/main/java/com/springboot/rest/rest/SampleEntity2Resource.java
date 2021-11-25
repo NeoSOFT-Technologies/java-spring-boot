@@ -1,12 +1,12 @@
 package com.springboot.rest.rest;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
-import com.springboot.rest.usecase.sampleentity.CreateSampleEntity;
-import com.springboot.rest.usecase.sampleentity.DeleteSampleEntity;
-import com.springboot.rest.usecase.sampleentity.ReadSampleEntity;
-import com.springboot.rest.usecase.sampleentity.UpdateSampleEntity;
+import com.springboot.rest.usecase.sampleentity2.CreateSampleEntity2;
+import com.springboot.rest.usecase.sampleentity2.DeleteSampleEntity2;
+import com.springboot.rest.usecase.sampleentity2.ReadSampleEntity2;
+import com.springboot.rest.usecase.sampleentity2.UpdateSampleEntity2;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,41 +25,41 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * REST controller for managing {@link SampleEntity}.
+ * REST controller for managing {@link SampleEntity2}.
  */
 // @Component
 @RestController
 @RequestMapping("/api")
-public class SampleEntityResource {
+public class SampleEntity2Resource {
 
-    private final Logger log = LoggerFactory.getLogger(SampleEntityResource.class);
+    private final Logger log = LoggerFactory.getLogger(SampleEntity2Resource.class);
 
     private static final String ENTITY_NAME = "a";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    //private final SampleEntityServicePort sampleEntityServicePort;
+    //private final SampleEntity2ServicePort sampleEntityServicePort;
 
-    private final CreateSampleEntity createSampleEntity;
-    private final ReadSampleEntity readSampleEntity;
-    private final UpdateSampleEntity updateSampleEntity;
-    private final DeleteSampleEntity deleteSampleEntity;
+    private final CreateSampleEntity2 createSampleEntity2;
+    private final ReadSampleEntity2 readSampleEntity2;
+    private final UpdateSampleEntity2 updateSampleEntity2;
+    private final DeleteSampleEntity2 deleteSampleEntity2;
     
 
-    public SampleEntityResource(CreateSampleEntity createSampleEntity, ReadSampleEntity readSampleEntity, UpdateSampleEntity updateSampleEntity, DeleteSampleEntity deleteSampleEntity) {
+    public SampleEntity2Resource(CreateSampleEntity2 createSampleEntity2, ReadSampleEntity2 readSampleEntity2, UpdateSampleEntity2 updateSampleEntity2, DeleteSampleEntity2 deleteSampleEntity2) {
         //this.sampleEntityServicePort = sampleEntityServicePort;
-        this.createSampleEntity=createSampleEntity;
-        this.readSampleEntity=readSampleEntity;
-        this.updateSampleEntity=updateSampleEntity;
-        this.deleteSampleEntity=deleteSampleEntity;
+        this.createSampleEntity2=createSampleEntity2;
+        this.readSampleEntity2=readSampleEntity2;
+        this.updateSampleEntity2=updateSampleEntity2;
+        this.deleteSampleEntity2=deleteSampleEntity2;
     }
     
     /*
     // testing with mapper: initialize Mapper Class
-	private final SampleEntityMapper sampleEntityMapper;
+	private final SampleEntity2Mapper sampleEntityMapper;
 
-    public SampleEntityResource(SampleEntityServicePort sampleEntityServicePort, SampleEntityMapper sampleEntityMapper) {
+    public SampleEntity2Resource(SampleEntity2ServicePort sampleEntityServicePort, SampleEntity2Mapper sampleEntityMapper) {
         this.sampleEntityServicePort = sampleEntityServicePort;
         this.sampleEntityMapper = sampleEntityMapper;
     }
@@ -74,17 +74,18 @@ public class SampleEntityResource {
      */
     @PostMapping("/sample-entity")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntityDTO> createSampleEntity(@RequestBody SampleEntityDTO sampleEntityDTO) throws URISyntaxException {
-        log.debug("REST request to save A : {}", sampleEntityDTO);
-        if (sampleEntityDTO.getId() != null) {
+    public ResponseEntity<SampleEntity2DTO> createSampleEntity(@RequestBody SampleEntity2DTO sampleEntity2DTO) throws URISyntaxException {
+        log.debug("REST request to save A : {}", sampleEntity2DTO);
+        if (sampleEntity2DTO.getId() != null) {
             throw new BadRequestAlertException("A new a cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        SampleEntity sampleEntity = createSampleEntity.save(sampleEntityDTO);
-        SampleEntityDTO sampleEntityDTOResponse = new SampleEntityDTO(sampleEntity);
+        SampleEntity2 sampleEntity2 = createSampleEntity2.save(sampleEntity2DTO);
+        SampleEntity2DTO sampleEntityDTOResponse = new SampleEntity2DTO(sampleEntity2);
 
+        
         return ResponseEntity
-                .created(new URI("/api/sample-entity/" + sampleEntity.getId()))
+                .created(new URI("/api/sample-entity/" + sampleEntity2.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, sampleEntityDTOResponse.getId().toString()))
                 .body(sampleEntityDTOResponse);
 
@@ -102,12 +103,12 @@ public class SampleEntityResource {
      */
     @PutMapping("/sample-entity/{id}")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntityDTO> updateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntityDTO sampleEntityDTO)
+    public ResponseEntity<SampleEntity2DTO> updateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntity2DTO sampleEntity2DTO)
             throws URISyntaxException {
-        log.debug("REST request to update A : {}, {}", id, sampleEntityDTO);
+        log.debug("REST request to update A : {}, {}", id, sampleEntity2DTO);
 
-        SampleEntity sampleEntity = updateSampleEntity.update(id, sampleEntityDTO);
-        SampleEntityDTO sampleEntityDTOResponse = new SampleEntityDTO(sampleEntity);
+        SampleEntity2 sampleEntity2 = updateSampleEntity2.update(id, sampleEntity2DTO);
+        SampleEntity2DTO sampleEntityDTOResponse = new SampleEntity2DTO(sampleEntity2);
 
         return ResponseEntity
                 .ok()
@@ -128,15 +129,15 @@ public class SampleEntityResource {
      */
     @PatchMapping(value = "/sample-entity/{id}", consumes = "application/merge-patch+json")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntity> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntityDTO sampleEntityDTO)
+    public ResponseEntity<SampleEntity2> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntity2DTO sampleEntity2DTO)
             throws URISyntaxException {
-        log.debug("REST request to partial update A partially : {}, {}", id, sampleEntityDTO);
+        log.debug("REST request to partial update A partially : {}, {}", id, sampleEntity2DTO);
 
-        Optional<SampleEntity> result = updateSampleEntity.patch(id, sampleEntityDTO);
+        Optional<SampleEntity2> result = updateSampleEntity2.patch(id, sampleEntity2DTO);
 
         return ResponseUtil.wrapOrNotFound(
                 result,
-                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, sampleEntityDTO.getId().toString())
+                HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, sampleEntity2DTO.getId().toString())
         );
 
     }
@@ -148,12 +149,12 @@ public class SampleEntityResource {
      */
     @GetMapping("/sample-entity")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public List<SampleEntityDTO> getAllSampleEntity() {
-        log.debug("REST request to get all SampleEntity");
+    public List<SampleEntity2DTO> getAllSampleEntity() {
+        log.debug("REST request to get all SampleEntity2");
 
-        List<SampleEntityDTO> sampleEntityDTOS = readSampleEntity.findAll()
+        List<SampleEntity2DTO> sampleEntityDTOS = readSampleEntity2.findAll()
                 .stream()
-                .map(a -> new SampleEntityDTO(a))
+                .map(a -> new SampleEntity2DTO(a))
                 .collect(Collectors.toList());
 
         return sampleEntityDTOS;
@@ -167,12 +168,12 @@ public class SampleEntityResource {
      */
     @GetMapping("/sample-entity/{id}")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity getA(@PathVariable Long id) {
+    public Optional<SampleEntity2> getA(@PathVariable Long id) {
         log.debug("REST request to get A : {}", id);
 
-        Optional<SampleEntity> a = readSampleEntity.findById(id);
+        Optional<SampleEntity2> a = readSampleEntity2.findById(id);
 
-        return ResponseUtil.wrapOrNotFound(a);
+        return a;
     }
 
     /**
@@ -183,9 +184,9 @@ public class SampleEntityResource {
      */
     @DeleteMapping("/sample-entity/{id}")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<Void> deleteA(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteA(@PathVariable Long id) {
         log.debug("REST request to delete A : {}", id);
-        deleteSampleEntity.deleteById(id);
+        deleteSampleEntity2.deleteById(id);
         return ResponseEntity
                 .noContent()
                 .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

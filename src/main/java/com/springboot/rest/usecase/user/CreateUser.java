@@ -1,11 +1,11 @@
 package com.springboot.rest.usecase.user;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntityDTO;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
 import com.springboot.rest.domain.dto.UserDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
+import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
 import com.springboot.rest.infrastructure.entity.User;
 
 import org.springframework.stereotype.Service;

@@ -15,12 +15,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
 import com.springboot.rest.infrastructure.entity.Authority;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
 
 /**
- * Mapper for the entity {@link SampleEntity} and its DTO called {@link SampleEntityDTO}.
+ * Mapper for the entity {@link SampleEntity2} and its DTO called {@link SampleEntity2DTO}.
  *
  *With the hard-coded mappers, it could get very tedious in the future 
  *when we have lots of entities with many fields each
@@ -30,7 +30,7 @@ import com.springboot.rest.infrastructure.entity.SampleEntity;
  */
 
 @Component
-public class SampleEntityMapper {
+public class SampleEntity2Mapper {
 	
 	// inject ModelMapper
 	private ModelMapper modelMapper = new ModelMapper();
@@ -39,34 +39,34 @@ public class SampleEntityMapper {
 
 	////////////////////////// 1. Using ModelMapper library /////////////////////
 	// Entity to DTO Mapping
-	public SampleEntityDTO entityToDto(SampleEntity sampleEntity) {
-		return modelMapper.map(sampleEntity, SampleEntityDTO.class);
+	public SampleEntity2DTO entityToDto(SampleEntity2 sampleEntity2) {
+		return modelMapper.map(sampleEntity2, SampleEntity2DTO.class);
 	}
 	
-    public List<SampleEntityDTO> entitiesToDTOs(List<SampleEntity> sampleEntities) {
-        return sampleEntities.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
+    public List<SampleEntity2DTO> entitiesToDTOs(List<SampleEntity2> sampleEntity2s) {
+        return sampleEntity2s.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
     }
 	
 	// DTO to entity Mapping
-	public SampleEntity dtoToEntity(SampleEntityDTO sampleEntityDTO) {
-		return modelMapper.map(sampleEntityDTO, SampleEntity.class);
+	public SampleEntity2 dtoToEntity(SampleEntity2DTO sampleEntity2DTO) {
+		return modelMapper.map(sampleEntity2DTO, SampleEntity2.class);
 	}
 	
-    public List<SampleEntity> dtosToEntities(List<SampleEntityDTO> sampleEntityDTOs) {
-        return sampleEntityDTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
+    public List<SampleEntity2> dtosToEntities(List<SampleEntity2DTO> sampleEntity2DTOs) {
+        return sampleEntity2DTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
     }
 	
 	
 	//////////////////////////2. Hard-coded way /////////////////////
     
 	/*
-	 * public List<SampleEntityDTO>
-	 * sampleEntitiesToSampleEntityDTOs(List<SampleEntity> sampleEntities) { return
+	 * public List<SampleEntity2DTO>
+	 * sampleEntitiesToSampleEntityDTOs(List<SampleEntity2> sampleEntities) { return
 	 * sampleEntities.stream().filter(Objects::nonNull).map(this::
 	 * sampleEntityToSampleEntityDTO).collect(Collectors.toList()); }
 	 * 
-	 * public SampleEntityDTO sampleEntityToSampleEntityDTO(SampleEntity
-	 * sampleEntity) { return new SampleEntityDTO(sampleEntity); }
+	 * public SampleEntity2DTO sampleEntityToSampleEntityDTO(SampleEntity2
+	 * sampleEntity) { return new SampleEntity2DTO(sampleEntity); }
 	 * 
 	 * public List<User> sampleEntityDTOsToSampleEntities(List<AdminUserDTO>
 	 * userDTOs) { return userDTOs.stream().filter(Objects::nonNull).map(this::
@@ -105,23 +105,23 @@ public class SampleEntityMapper {
         return authorities;
     }
 
-    public SampleEntity sampleEntityFromId(Long id) {
+    public SampleEntity2 sampleEntityFromId(Long id) {
         if (id == null) {
             return null;
         }
-        SampleEntity sampleEntity = new SampleEntity();
-        sampleEntity.setId(id);
-        return sampleEntity;
+        SampleEntity2 sampleEntity2 = new SampleEntity2();
+        sampleEntity2.setId(id);
+        return sampleEntity2;
     }
 
     @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public SampleEntityDTO toDtoId(SampleEntity user) {
+    public SampleEntity2DTO toDtoId(SampleEntity2 user) {
         if (user == null) {
             return null;
         }
-        SampleEntityDTO userDto = new SampleEntityDTO();
+        SampleEntity2DTO userDto = new SampleEntity2DTO();
         userDto.setId(user.getId());
         return userDto;
     }
@@ -129,13 +129,13 @@ public class SampleEntityMapper {
     @Named("idSet")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public Set<SampleEntityDTO> toDtoIdSet(Set<SampleEntity> sampleEntities) {
-        if (sampleEntities == null) {
+    public Set<SampleEntity2DTO> toDtoIdSet(Set<SampleEntity2> sampleEntity2s) {
+        if (sampleEntity2s == null) {
             return Collections.emptySet();
         }
 
-        Set<SampleEntityDTO> sampleEntitySet = new HashSet<>();
-        for (SampleEntity sampleEntityEntity : sampleEntities) {
+        Set<SampleEntity2DTO> sampleEntitySet = new HashSet<>();
+        for (SampleEntity2 sampleEntityEntity : sampleEntity2s) {
             sampleEntitySet.add(this.toDtoId(sampleEntityEntity));
         }
 

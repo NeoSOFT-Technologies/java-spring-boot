@@ -24,17 +24,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
+import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
 import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.mapper.SampleEntity2Mapper;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
+import com.springboot.rest.usecase.sampleentity2.CreateSampleEntity2;
 
 //@WebMvcTest
 //@AutoConfigureMockMvc
@@ -47,45 +48,45 @@ class CreateSampleEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private SampleEntity2Mapper sampleEntity2Mapper;
+    private SampleEntity2 sampleEntity2;
+    private SampleEntity2DTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private SampleEntity2ServicePort sampleEntity2ServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
     
     @InjectMocks
-    private CreateSampleEntity createSampleEntity;
+    private CreateSampleEntity2 createSampleEntity2;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
-		sampleEntity.setId(99l);
-		sampleEntity.setAge(20);
-		sampleEntity.setName("Test Sample");
-		sampleEntity.setPhone(2848);
-		sampleEntity.setPassword("Test@123");
+		sampleEntity2 = new SampleEntity2();
+		sampleEntity2.setId(99l);
+		sampleEntity2.setAge(20);
+		sampleEntity2.setName("Test Sample");
+		sampleEntity2.setPhone(2848);
+		sampleEntity2.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
-        createSampleEntity = new CreateSampleEntity(sampleEntityServicePort);
+        sampleEntityDto = new SampleEntity2DTO(sampleEntity2);
+        createSampleEntity2 = new CreateSampleEntity2(sampleEntity2ServicePort);
     }
     
 	@Test
 	void contextLoads() {
-		assertThat(sampleEntityServicePort).isNotNull();
+		assertThat(sampleEntity2ServicePort).isNotNull();
 	}
 	
     @Test
     void saveSampleEntity() {
-    	Mockito.when(sampleEntityPersistencePort
+    	Mockito.when(sampleEntity2PersistencePort
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	SampleEntity createdSampleEntity = createSampleEntity.save(sampleEntityDto);
+    	SampleEntity2 createdSampleEntity = createSampleEntity2.save(sampleEntityDto);
     	
     	assertNull(createdSampleEntity);
     }

@@ -1,10 +1,12 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
+import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
+import com.springboot.rest.mapper.SampleEntity2Mapper;
+import com.springboot.rest.usecase.sampleentity2.ReadSampleEntity2;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,46 +30,46 @@ class ReadSampleEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private SampleEntity2Mapper sampleEntity2Mapper;
+    private SampleEntity2 sampleEntity2;
+    private SampleEntity2DTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private SampleEntity2ServicePort sampleEntity2ServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
     
     @InjectMocks
-    private ReadSampleEntity readSampleEntity;
+    private ReadSampleEntity2 readSampleEntity2;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
-		sampleEntity.setId(99l);
-		sampleEntity.setAge(20);
-		sampleEntity.setName("Test Sample");
-		sampleEntity.setPhone(2848);
-		sampleEntity.setPassword("Test@123");
+		sampleEntity2 = new SampleEntity2();
+		sampleEntity2.setId(99l);
+		sampleEntity2.setAge(20);
+		sampleEntity2.setName("Test Sample");
+		sampleEntity2.setPhone(2848);
+		sampleEntity2.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
-        readSampleEntity = new ReadSampleEntity(sampleEntityServicePort);
+        sampleEntityDto = new SampleEntity2DTO(sampleEntity2);
+        readSampleEntity2 = new ReadSampleEntity2(sampleEntity2ServicePort);
     }
     
 	@Test
 	void contextLoads() {
-		assertThat(sampleEntityServicePort).isNotNull();
+		assertThat(sampleEntity2ServicePort).isNotNull();
 	}
 	
     @Test
     void findSampleEntitiesTest() {
-		List<SampleEntity> entities = new ArrayList<SampleEntity>();
+		List<SampleEntity2> entities = new ArrayList<SampleEntity2>();
 		
-		Mockito.when(sampleEntityServicePort.findAll().size() > 0)
+		Mockito.when(sampleEntity2ServicePort.findAll().size() > 0)
 				.thenReturn(null);
 		
-		entities = readSampleEntity.findAll();
+		entities = readSampleEntity2.findAll();
 		// testing
 		// System.out.println("Auths: "+authorities);
 		
@@ -76,11 +78,11 @@ class ReadSampleEntityTest {
     
     @Test
     void findSampleEntityByIdTest() {
-    	Mockito.when(sampleEntityPersistencePort
+    	Mockito.when(sampleEntity2PersistencePort
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	Optional<SampleEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
+    	Optional<SampleEntity2> fetchedSampleEntity = readSampleEntity2.findById(sampleEntity2.getId());
     	
     	//assertNull(fetchedSampleEntity);
     }

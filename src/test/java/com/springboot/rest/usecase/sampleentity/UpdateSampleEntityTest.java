@@ -24,17 +24,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
+import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
+import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
 import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.mapper.SampleEntity2Mapper;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
+import com.springboot.rest.usecase.sampleentity2.UpdateSampleEntity2;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -44,54 +45,54 @@ class UpdateSampleEntityTest {
 	private static final String DEFAULT_LOGIN = "johndoe";
 	private static final Long DEFAULT_ID = 999l;
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private SampleEntity2Mapper sampleEntity2Mapper;
+    private SampleEntity2 sampleEntity2;
+    private SampleEntity2DTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private SampleEntity2ServicePort sampleEntity2ServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
     
     @InjectMocks
-    private UpdateSampleEntity updateSampleEntity;
+    private UpdateSampleEntity2 updateSampleEntity2;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
-		sampleEntity.setId(99l);
-		sampleEntity.setAge(20);
-		sampleEntity.setName("Test Sample");
-		sampleEntity.setPhone(2848);
-		sampleEntity.setPassword("Test@123");
+		sampleEntity2 = new SampleEntity2();
+		sampleEntity2.setId(99l);
+		sampleEntity2.setAge(20);
+		sampleEntity2.setName("Test Sample");
+		sampleEntity2.setPhone(2848);
+		sampleEntity2.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
-        updateSampleEntity = new UpdateSampleEntity(sampleEntityServicePort);
+        sampleEntityDto = new SampleEntity2DTO(sampleEntity2);
+        updateSampleEntity2 = new UpdateSampleEntity2(sampleEntity2ServicePort);
     }
     
 	@Test
 	void contextLoads() {
-		assertThat(sampleEntityServicePort).isNotNull();
+		assertThat(sampleEntity2ServicePort).isNotNull();
 	}
 	
     @Test
     void updateSampleEntityTest() {
-    	Mockito.when(sampleEntityServicePort
+    	Mockito.when(sampleEntity2ServicePort
     			.update(DEFAULT_ID, sampleEntityDto))
     			.thenReturn(null);    	
-    	SampleEntity updatedSampleEntity = updateSampleEntity.update(DEFAULT_ID, sampleEntityDto);
+    	SampleEntity2 updatedSampleEntity = updateSampleEntity2.update(DEFAULT_ID, sampleEntityDto);
     	
     	assertNull(updatedSampleEntity);
     }
     
     @Test
     void patchSampleEntityTest() {
-    	Mockito.when(sampleEntityServicePort
+    	Mockito.when(sampleEntity2ServicePort
     			.patch(DEFAULT_ID, sampleEntityDto))
     			.thenReturn(null);    	
-    	Optional<SampleEntity> patchedSampleEntity = updateSampleEntity.patch(DEFAULT_ID, sampleEntityDto);
+    	Optional<SampleEntity2> patchedSampleEntity = updateSampleEntity2.patch(DEFAULT_ID, sampleEntityDto);
     	
     	assertNull(patchedSampleEntity);
     }

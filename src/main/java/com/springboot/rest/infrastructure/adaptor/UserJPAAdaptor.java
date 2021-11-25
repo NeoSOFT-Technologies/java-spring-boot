@@ -1,5 +1,24 @@
 package com.springboot.rest.infrastructure.adaptor;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.rest.config.Constants;
 import com.springboot.rest.domain.dto.AdminUserDTO;
 import com.springboot.rest.domain.dto.UserDTO;
@@ -10,23 +29,8 @@ import com.springboot.rest.infrastructure.repository.AuthorityRepository;
 import com.springboot.rest.infrastructure.repository.UserRepository;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import tech.jhipster.security.RandomUtil;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import tech.jhipster.security.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -43,13 +47,12 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final CacheManager cacheManager;
+    //private final CacheManager cacheManager;
     
     private final UserMapper userMapper;
 
-    public UserJPAAdaptor(PasswordEncoder passwordEncoder, CacheManager cacheManager, UserMapper userMapper) {
+    public UserJPAAdaptor(PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
-        this.cacheManager = cacheManager;
         this.userMapper = userMapper;
     }
 
@@ -59,7 +62,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             // activate given user for the registration key.
             user.setActivated(true);
             user.setActivationKey(null);
-            this.clearUserCaches(user);
+           // this.clearUserCaches(user);
             log.debug("Activated user: {}", user);
             return user;
         });
@@ -71,7 +74,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             user.setPassword(passwordEncoder.encode(newPassword));
             user.setResetKey(null);
             user.setResetDate(null);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             return user;
         });
     }
@@ -80,7 +83,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
         return userRepository.findOneByEmailIgnoreCase(mail).filter(User::isActivated).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(Instant.now());
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             return user;
         });
     }
@@ -152,7 +155,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             .forEach(managedAuthorities::add);
         
         userRepository.save(user);
-        this.clearUserCaches(user);
+        //this.clearUserCaches(user);
         log.debug("Changed Information for User: {}", user);
         return user;
     
@@ -181,7 +184,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
 		}	 
         
         userRepository.save(user);
-        this.clearUserCaches(user);
+        //this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
     }
@@ -192,7 +195,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
         }
         userRepository.delete(existingUser);
         userRepository.flush();
-        this.clearUserCaches(existingUser);
+       // this.clearUserCaches(existingUser);
         return true;
     }
 
@@ -221,12 +224,12 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     }
 
-    private void clearUserCaches(User user) {
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        if (user.getEmail() != null) {
-            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-        }
-    }
+//    private void clearUserCaches(User user) {
+//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+//        if (user.getEmail() != null) {
+//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+//        }
+ //   }
 
     public Optional<User> findOneByResetKey(String key) {
         return userRepository.findOneByResetKey(key);
