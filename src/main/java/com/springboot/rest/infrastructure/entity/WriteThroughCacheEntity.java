@@ -16,11 +16,11 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Table(name = "a")
+@Table(name = "WriteThroughCache")
 
 //
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class SampleEntity implements Serializable {
+public class WriteThroughCacheEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,25 +41,25 @@ public class SampleEntity implements Serializable {
     private Integer phone;
 
 
-    public SampleEntity name(String name) {
+    public WriteThroughCacheEntity name(String name) {
         this.name = name;
         return this;
     }
 
 
-    public SampleEntity password(String password) {
+    public WriteThroughCacheEntity password(String password) {
         this.password = password;
         return this;
     }
 
 
-    public SampleEntity age(Integer age) {
+    public WriteThroughCacheEntity age(Integer age) {
         this.age = age;
         return this;
     }
 
 
-    public SampleEntity phone(Integer phone) {
+    public WriteThroughCacheEntity phone(Integer phone) {
         this.phone = phone;
         return this;
     }
@@ -73,10 +73,10 @@ public class SampleEntity implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SampleEntity)) {
+        if (!(o instanceof WriteThroughCacheEntity)) {
             return false;
         }
-        return id != null && id.equals(((SampleEntity) o).id);
+        return id != null && id.equals(((WriteThroughCacheEntity) o).id);
     }
 
     @Override

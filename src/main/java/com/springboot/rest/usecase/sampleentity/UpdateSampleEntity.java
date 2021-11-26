@@ -1,8 +1,8 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,17 +12,17 @@ import java.util.Optional;
 @Transactional
 public class UpdateSampleEntity {
 
-    private final SampleEntityServicePort sampleEntityServicePort;
+    private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
 
-    public UpdateSampleEntity(SampleEntityServicePort sampleEntityServicePort) {
+    public UpdateSampleEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 
-    public SampleEntity update(Long id, SampleEntityDTO sampleEntityDTO) {
+    public WriteThroughCacheEntity update(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
         return sampleEntityServicePort.update(id, sampleEntityDTO);
     }
 
-    public Optional<SampleEntity> patch(Long id, SampleEntityDTO sampleEntityDTO) {
+    public Optional<WriteThroughCacheEntity> patch(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
         return sampleEntityServicePort.patch(id, sampleEntityDTO);
     }
 

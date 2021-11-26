@@ -14,12 +14,12 @@ import org.mapstruct.Named;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.infrastructure.entity.Authority;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 
 /**
- * Mapper for the entity {@link SampleEntity} and its DTO called {@link SampleEntityDTO}.
+ * Mapper for the entity {@link WriteThroughCacheEntity} and its DTO called {@link WriteThroughCacheEntityDTO}.
  *
  *With the hard-coded mappers, it could get very tedious in the future 
  *when we have lots of entities with many fields each
@@ -29,7 +29,7 @@ import com.springboot.rest.infrastructure.entity.SampleEntity;
  */
 
 @Component
-public class SampleEntityMapper {
+public class WriteThroughCacheEntityMapper {
 	
 	// inject ModelMapper
 	private ModelMapper modelMapper = new ModelMapper();
@@ -38,20 +38,20 @@ public class SampleEntityMapper {
 
 	////////////////////////// 1. Using ModelMapper library /////////////////////
 	// Entity to DTO Mapping
-	public SampleEntityDTO entityToDto(SampleEntity sampleEntity) {
-		return modelMapper.map(sampleEntity, SampleEntityDTO.class);
+	public WriteThroughCacheEntityDTO entityToDto(WriteThroughCacheEntity sampleEntity) {
+		return modelMapper.map(sampleEntity, WriteThroughCacheEntityDTO.class);
 	}
 	
-    public List<SampleEntityDTO> entitiesToDTOs(List<SampleEntity> sampleEntities) {
+    public List<WriteThroughCacheEntityDTO> entitiesToDTOs(List<WriteThroughCacheEntity> sampleEntities) {
         return sampleEntities.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
     }
 	
 	// DTO to entity Mapping
-	public SampleEntity dtoToEntity(SampleEntityDTO sampleEntityDTO) {
-		return modelMapper.map(sampleEntityDTO, SampleEntity.class);
+	public WriteThroughCacheEntity dtoToEntity(WriteThroughCacheEntityDTO sampleEntityDTO) {
+		return modelMapper.map(sampleEntityDTO, WriteThroughCacheEntity.class);
 	}
 	
-    public List<SampleEntity> dtosToEntities(List<SampleEntityDTO> sampleEntityDTOs) {
+    public List<WriteThroughCacheEntity> dtosToEntities(List<WriteThroughCacheEntityDTO> sampleEntityDTOs) {
         return sampleEntityDTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
     }
 	
@@ -104,11 +104,11 @@ public class SampleEntityMapper {
         return authorities;
     }
 
-    public SampleEntity sampleEntityFromId(Long id) {
+    public WriteThroughCacheEntity sampleEntityFromId(Long id) {
         if (id == null) {
             return null;
         }
-        SampleEntity sampleEntity = new SampleEntity();
+        WriteThroughCacheEntity sampleEntity = new WriteThroughCacheEntity();
         sampleEntity.setId(id);
         return sampleEntity;
     }
@@ -116,11 +116,11 @@ public class SampleEntityMapper {
     @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public SampleEntityDTO toDtoId(SampleEntity user) {
+    public WriteThroughCacheEntityDTO toDtoId(WriteThroughCacheEntity user) {
         if (user == null) {
             return null;
         }
-        SampleEntityDTO userDto = new SampleEntityDTO();
+        WriteThroughCacheEntityDTO userDto = new WriteThroughCacheEntityDTO();
         userDto.setId(user.getId());
         return userDto;
     }
@@ -128,13 +128,13 @@ public class SampleEntityMapper {
     @Named("idSet")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public Set<SampleEntityDTO> toDtoIdSet(Set<SampleEntity> sampleEntities) {
+    public Set<WriteThroughCacheEntityDTO> toDtoIdSet(Set<WriteThroughCacheEntity> sampleEntities) {
         if (sampleEntities == null) {
             return Collections.emptySet();
         }
 
-        Set<SampleEntityDTO> sampleEntitySet = new HashSet<>();
-        for (SampleEntity sampleEntityEntity : sampleEntities) {
+        Set<WriteThroughCacheEntityDTO> sampleEntitySet = new HashSet<>();
+        for (WriteThroughCacheEntity sampleEntityEntity : sampleEntities) {
             sampleEntitySet.add(this.toDtoId(sampleEntityEntity));
         }
 

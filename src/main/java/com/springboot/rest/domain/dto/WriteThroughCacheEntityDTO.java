@@ -1,7 +1,7 @@
 package com.springboot.rest.domain.dto;
 
 
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class SampleEntityDTO {
+public class WriteThroughCacheEntityDTO {
 
     private Long id;
 
@@ -25,7 +25,7 @@ public class SampleEntityDTO {
 
  
 
-    public SampleEntityDTO(SampleEntity sampleEntity) {
+    public WriteThroughCacheEntityDTO(WriteThroughCacheEntity sampleEntity) {
         this.id = sampleEntity.getId();
         this.name = sampleEntity.getName();
         this.password = sampleEntity.getPassword();

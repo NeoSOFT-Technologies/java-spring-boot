@@ -1,6 +1,6 @@
 package com.springboot.rest.infrastructure.repository;
 
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SampleEntityRepository extends JpaRepository<SampleEntity, Long> {
+public interface WriteThroughCacheEntityRepository extends JpaRepository<WriteThroughCacheEntity, Long> {
 	
 	
-	 SampleEntity findById(long id);
+	 WriteThroughCacheEntity findById(long id);
 	 boolean deleteById(long id);
 }

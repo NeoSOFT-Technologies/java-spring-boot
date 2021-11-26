@@ -1,10 +1,10 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,30 +28,30 @@ class ReadSampleEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private WriteThroughCacheEntityMapper sampleEntityMapper;
+    private WriteThroughCacheEntity sampleEntity;
+    private WriteThroughCacheEntityDTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private WriteThroughCacheEntityServicePort sampleEntityServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
     private ReadSampleEntity readSampleEntity;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
+		sampleEntity = new WriteThroughCacheEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
 		sampleEntity.setPhone(2848);
 		sampleEntity.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
+        sampleEntityDto = new WriteThroughCacheEntityDTO(sampleEntity);
         readSampleEntity = new ReadSampleEntity(sampleEntityServicePort);
     }
     
@@ -62,7 +62,7 @@ class ReadSampleEntityTest {
 	
     @Test
     void findSampleEntitiesTest() {
-		List<SampleEntity> entities = new ArrayList<SampleEntity>();
+		List<WriteThroughCacheEntity> entities = new ArrayList<WriteThroughCacheEntity>();
 		
 		Mockito.when(sampleEntityServicePort.findAll().size() > 0)
 				.thenReturn(null);

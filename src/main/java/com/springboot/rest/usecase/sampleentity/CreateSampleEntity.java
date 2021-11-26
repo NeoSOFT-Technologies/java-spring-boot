@@ -1,8 +1,8 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CreateSampleEntity {
 
-    private final SampleEntityServicePort sampleEntityServicePort;
+    private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
 
-    public CreateSampleEntity(SampleEntityServicePort sampleEntityServicePort) {
+    public CreateSampleEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 
-    public SampleEntity save(SampleEntityDTO sampleEntityDTO) {
+    public WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
         return sampleEntityServicePort.save(sampleEntityDTO);
     }
 

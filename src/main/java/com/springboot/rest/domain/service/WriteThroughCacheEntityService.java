@@ -11,37 +11,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
 
 @Service
 @Transactional
-public class SampleEntityService implements SampleEntityServicePort {
+public class WriteThroughCacheEntityService implements WriteThroughCacheEntityServicePort {
 
 	
 	
 	@Autowired
-    private RMapCache<Long, SampleEntity> userRMapCache;
+    private RMapCache<Long, WriteThroughCacheEntity> userRMapCache;
 	
 	
     private static final String ENTITY_NAME = "a";
 
-    private final SampleEntityPersistencePort sampleEntityPersistencePort;
-    private final SampleEntityMapper sampleEntityMapper;
+    private final WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort;
+    private final WriteThroughCacheEntityMapper sampleEntityMapper;
 
-    public SampleEntityService(SampleEntityPersistencePort sampleEntityPersistencePort, SampleEntityMapper sampleEntityMapper) {
+    public WriteThroughCacheEntityService(WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort, WriteThroughCacheEntityMapper sampleEntityMapper) {
         this.sampleEntityPersistencePort = sampleEntityPersistencePort;
         this.sampleEntityMapper = sampleEntityMapper;
     }
 
     @Override
-    public SampleEntity save(SampleEntityDTO sampleEntityDTO) {
+    public WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
     	
-    	SampleEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
+    	WriteThroughCacheEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
     	
     	   long random=(long) (Math.random()*(7000-4000+1)+4000);
            this.userRMapCache.put(random, sampleEntity,60, TimeUnit.SECONDS);
@@ -53,7 +53,7 @@ public class SampleEntityService implements SampleEntityServicePort {
     }
 
     @Override
-    public SampleEntity update(Long id, SampleEntityDTO sampleEntityDTO) {
+    public WriteThroughCacheEntity update(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -75,12 +75,12 @@ public class SampleEntityService implements SampleEntityServicePort {
     }
 
     @Override
-    public List<SampleEntity> findAll() {
+    public List<WriteThroughCacheEntity> findAll() {
         return sampleEntityPersistencePort.findAll();
     }
 
     @Override
-    public Optional<SampleEntity> findById(Long id) {
+    public Optional<WriteThroughCacheEntity> findById(Long id) {
 		
     
     	 return Optional.ofNullable(this.userRMapCache.get(id));
@@ -96,7 +96,7 @@ public class SampleEntityService implements SampleEntityServicePort {
     }
 
     @Override
-    public Optional<SampleEntity> patch(Long id, SampleEntityDTO sampleEntityDTO) {
+    public Optional<WriteThroughCacheEntity> patch(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -129,7 +129,7 @@ public class SampleEntityService implements SampleEntityServicePort {
                         }
                 )
                 .map(updatedA -> {
-                	SampleEntityDTO updatedSampleEntityDTO = sampleEntityMapper.entityToDto(updatedA);
+                	WriteThroughCacheEntityDTO updatedSampleEntityDTO = sampleEntityMapper.entityToDto(updatedA);
                     sampleEntityPersistencePort.save(updatedSampleEntityDTO);
                     return updatedA;
                 });
