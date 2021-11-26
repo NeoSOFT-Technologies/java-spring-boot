@@ -1,5 +1,6 @@
 package com.springboot.rest.config;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import com.springboot.rest.infrastructure.entity.SampleEntity2;
 import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
@@ -35,6 +39,14 @@ public class RedissonConfigReadThrough implements InitializingBean{
 	Logger logger = LoggerFactory.getLogger(RedissonConfigReadThrough.class);
 	
 
+	@Bean
+	public RedisCacheConfiguration CacheConfigurationException() {
+		return RedisCacheConfiguration.defaultCacheConfig()
+				.entryTtl(Duration.ofSeconds(40))
+				.disableCachingNullValues()
+				.serializeValuesWith(
+				RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+	}
 	
 	@Bean
 	public RMapCache<Long, SampleEntity2> sampleRMapCache(){

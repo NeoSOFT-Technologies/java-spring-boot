@@ -1,14 +1,23 @@
 package com.springboot.rest.rest;
 
-import com.springboot.rest.IntegrationTest;
-import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
-import com.springboot.rest.domain.service.SampleEntity2Service;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
-import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.redisson.api.RMapCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
@@ -18,21 +27,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
+import com.springboot.rest.domain.service.SampleEntity2Service;
+import com.springboot.rest.infrastructure.entity.SampleEntity2;
+import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
 
 /**
  * Integration tests for the {@link SampleEntity2Resource} REST controller.
  */
-@IntegrationTest
+//@IntegrationTest
 @AutoConfigureMockMvc
 @WithMockUser
 class SampleEntityResourceIT {
@@ -64,8 +67,7 @@ class SampleEntityResourceIT {
     @Mock
     private SampleEntity2Service sampleEntity2Service;
 
-    @Autowired
-    private RMapCache<Long, SampleEntity2> sampleRMapCache;
+   
     @Autowired
     private EntityManager em;
 
@@ -168,7 +170,7 @@ class SampleEntityResourceIT {
     void getSampleEntity() throws Exception {
         // Initialize the database
         sampleEntity2Repository.saveAndFlush(sampleEntity2);
-
+     
         // Get the sampleEntity2
         restAMockMvc
             .perform(get(ENTITY_API_URL_ID, sampleEntity2.getId()))

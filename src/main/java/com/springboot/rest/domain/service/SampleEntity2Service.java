@@ -79,8 +79,8 @@ public class SampleEntity2Service implements SampleEntity2ServicePort {
     @Override
     public boolean deleteById(Long id) {
         //sampleEntity2PersistencePort.deleteById(id);
-    	this.sampleRMapCache.remove(id);
-    	return true;
+    	//this.sampleRMapCache.remove(id);
+    	return sampleEntity2PersistencePort.deleteById(id);
     }
 
     @Override
