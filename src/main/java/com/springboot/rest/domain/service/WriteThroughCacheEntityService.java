@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
 
@@ -25,7 +25,7 @@ public class WriteThroughCacheEntityService implements WriteThroughCacheEntitySe
 	
 	
 	@Autowired
-    private RMapCache<Long, WriteThroughCacheEntity> userRMapCache;
+    private RMapCache<Long, SampleEntity> userRMapCache;
 	
 	
     private static final String ENTITY_NAME = "a";
@@ -39,9 +39,9 @@ public class WriteThroughCacheEntityService implements WriteThroughCacheEntitySe
     }
 
     @Override
-    public WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
+    public SampleEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
     	
-    	WriteThroughCacheEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
+    	SampleEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
     	
     	   long random=(long) (Math.random()*(7000-4000+1)+4000);
            this.userRMapCache.put(random, sampleEntity,60, TimeUnit.SECONDS);
@@ -53,7 +53,7 @@ public class WriteThroughCacheEntityService implements WriteThroughCacheEntitySe
     }
 
     @Override
-    public WriteThroughCacheEntity update(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
+    public SampleEntity update(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -75,12 +75,12 @@ public class WriteThroughCacheEntityService implements WriteThroughCacheEntitySe
     }
 
     @Override
-    public List<WriteThroughCacheEntity> findAll() {
+    public List<SampleEntity> findAll() {
         return sampleEntityPersistencePort.findAll();
     }
 
     @Override
-    public Optional<WriteThroughCacheEntity> findById(Long id) {
+    public Optional<SampleEntity> findById(Long id) {
 		
     
     	 return Optional.ofNullable(this.userRMapCache.get(id));
@@ -96,7 +96,7 @@ public class WriteThroughCacheEntityService implements WriteThroughCacheEntitySe
     }
 
     @Override
-    public Optional<WriteThroughCacheEntity> patch(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
+    public Optional<SampleEntity> patch(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

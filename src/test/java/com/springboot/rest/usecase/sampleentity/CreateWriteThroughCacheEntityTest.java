@@ -30,7 +30,7 @@ import com.springboot.rest.domain.port.api.UserServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.infrastructure.entity.User;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import com.springboot.rest.mapper.UserMapper;
@@ -48,7 +48,7 @@ class CreateWriteThroughCacheEntityTest {
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
     private WriteThroughCacheEntityMapper sampleEntityMapper;
-    private WriteThroughCacheEntity sampleEntity;
+    private SampleEntity sampleEntity;
     private WriteThroughCacheEntityDTO sampleEntityDto;
     
     @Autowired
@@ -63,7 +63,7 @@ class CreateWriteThroughCacheEntityTest {
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new WriteThroughCacheEntity();
+		sampleEntity = new SampleEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
@@ -85,7 +85,7 @@ class CreateWriteThroughCacheEntityTest {
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	WriteThroughCacheEntity createdSampleEntity = createSampleEntity.save(sampleEntityDto);
+    	SampleEntity createdSampleEntity = createSampleEntity.save(sampleEntityDto);
     	
     	assertNull(createdSampleEntity);
     }

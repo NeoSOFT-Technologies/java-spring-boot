@@ -3,7 +3,7 @@ package com.springboot.rest.usecase.sampleentity;
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class ReadWriteThroughCacheEntityTest {
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
     private WriteThroughCacheEntityMapper sampleEntityMapper;
-    private WriteThroughCacheEntity sampleEntity;
+    private SampleEntity sampleEntity;
     private WriteThroughCacheEntityDTO sampleEntityDto;
     
     @Autowired
@@ -44,7 +44,7 @@ class ReadWriteThroughCacheEntityTest {
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new WriteThroughCacheEntity();
+		sampleEntity = new SampleEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
@@ -62,7 +62,7 @@ class ReadWriteThroughCacheEntityTest {
 	
     @Test
     void findSampleEntitiesTest() {
-		List<WriteThroughCacheEntity> entities = new ArrayList<WriteThroughCacheEntity>();
+		List<SampleEntity> entities = new ArrayList<SampleEntity>();
 		
 		Mockito.when(sampleEntityServicePort.findAll().size() > 0)
 				.thenReturn(null);

@@ -2,7 +2,7 @@ package com.springboot.rest.infrastructure.adaptor;
 
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.infrastructure.repository.WriteThroughCacheEntityRepository;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 
@@ -27,20 +27,20 @@ public class WriteThroughCacheEntityJPAAdaptor implements WriteThroughCacheEntit
         this.sampleEntityMapper = sampleEntityMapper;
     }
 
-    public List<WriteThroughCacheEntity> findAll() {
+    public List<SampleEntity> findAll() {
         return sampleEntityRepository.findAll();
     }
 
     @Override
-    public Optional<WriteThroughCacheEntity> findById(Long id) {
+    public Optional<SampleEntity> findById(Long id) {
     	
         return sampleEntityRepository.findById(id);
     }
 
-    public WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
+    public SampleEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
 
         // SampleEntityDTO to SampleEntity conversion
-    	WriteThroughCacheEntity sampleEntity = sampleEntityMapper.dtoToEntity(sampleEntityDTO);
+    	SampleEntity sampleEntity = sampleEntityMapper.dtoToEntity(sampleEntityDTO);
         return sampleEntityRepository.save(sampleEntity);
     }
 

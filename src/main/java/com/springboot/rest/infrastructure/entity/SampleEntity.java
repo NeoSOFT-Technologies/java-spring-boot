@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+
+
 /**
  * A A.
  */
@@ -20,7 +22,7 @@ import lombok.Data;
 
 //
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class WriteThroughCacheEntity implements Serializable {
+public class SampleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,25 +43,25 @@ public class WriteThroughCacheEntity implements Serializable {
     private Integer phone;
 
 
-    public WriteThroughCacheEntity name(String name) {
+    public SampleEntity name(String name) {
         this.name = name;
         return this;
     }
 
 
-    public WriteThroughCacheEntity password(String password) {
+    public SampleEntity password(String password) {
         this.password = password;
         return this;
     }
 
 
-    public WriteThroughCacheEntity age(Integer age) {
+    public SampleEntity age(Integer age) {
         this.age = age;
         return this;
     }
 
 
-    public WriteThroughCacheEntity phone(Integer phone) {
+    public SampleEntity phone(Integer phone) {
         this.phone = phone;
         return this;
     }
@@ -73,10 +75,10 @@ public class WriteThroughCacheEntity implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof WriteThroughCacheEntity)) {
+        if (!(o instanceof SampleEntity)) {
             return false;
         }
-        return id != null && id.equals(((WriteThroughCacheEntity) o).id);
+        return id != null && id.equals(((SampleEntity) o).id);
     }
 
     @Override

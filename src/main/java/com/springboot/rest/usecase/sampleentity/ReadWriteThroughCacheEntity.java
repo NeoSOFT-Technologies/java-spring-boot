@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 @Service
 @Transactional
@@ -19,11 +19,11 @@ public class ReadWriteThroughCacheEntity {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 
-    public List<WriteThroughCacheEntity> findAll() {
+    public List<SampleEntity> findAll() {
         return sampleEntityServicePort.findAll();
     }
 
-    public Optional<WriteThroughCacheEntity> findById(Long id) {
+    public Optional<SampleEntity> findById(Long id) {
         return sampleEntityServicePort.findById(id);
     }
 

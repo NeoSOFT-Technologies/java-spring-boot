@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 
 
@@ -26,7 +26,7 @@ class DeleteWriteThroughCacheEntityTest {
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
     private WriteThroughCacheEntityMapper sampleEntityMapper;
-    private WriteThroughCacheEntity sampleEntity;
+    private SampleEntity sampleEntity;
     private WriteThroughCacheEntityDTO sampleEntityDto;
     
     @Autowired
@@ -41,7 +41,7 @@ class DeleteWriteThroughCacheEntityTest {
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new WriteThroughCacheEntity();
+		sampleEntity = new SampleEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");

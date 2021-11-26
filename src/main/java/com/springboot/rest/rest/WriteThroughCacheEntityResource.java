@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
 import com.springboot.rest.usecase.sampleentity.CreateWriteThroughCacheEntity;
 import com.springboot.rest.usecase.sampleentity.DeleteWriteThroughCacheEntity;
@@ -34,7 +34,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link WriteThroughCacheEntity}.
+ * REST controller for managing {@link SampleEntity}.
  */
 // @Component
 @RestController
@@ -89,7 +89,7 @@ public class WriteThroughCacheEntityResource {
             throw new BadRequestAlertException("A new a cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        WriteThroughCacheEntity sampleEntity = createSampleEntity.save(sampleEntityDTO);
+        SampleEntity sampleEntity = createSampleEntity.save(sampleEntityDTO);
         WriteThroughCacheEntityDTO sampleEntityDTOResponse = new WriteThroughCacheEntityDTO(sampleEntity);
 	
         return null;
@@ -114,7 +114,7 @@ public class WriteThroughCacheEntityResource {
             throws URISyntaxException {
         log.debug("REST request to update A : {}, {}", id, sampleEntityDTO);
 
-        WriteThroughCacheEntity sampleEntity = updateSampleEntity.update(id, sampleEntityDTO);
+        SampleEntity sampleEntity = updateSampleEntity.update(id, sampleEntityDTO);
         WriteThroughCacheEntityDTO sampleEntityDTOResponse = new WriteThroughCacheEntityDTO(sampleEntity);
 
         return ResponseEntity
@@ -136,11 +136,11 @@ public class WriteThroughCacheEntityResource {
      */
     @PatchMapping(value = "/sample-entity/{id}", consumes = "application/merge-patch+json")
     @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<WriteThroughCacheEntity> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody WriteThroughCacheEntityDTO sampleEntityDTO)
+    public ResponseEntity<SampleEntity> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody WriteThroughCacheEntityDTO sampleEntityDTO)
             throws URISyntaxException {
         log.debug("REST request to partial update A partially : {}, {}", id, sampleEntityDTO);
 
-        Optional<WriteThroughCacheEntity> result = updateSampleEntity.patch(id, sampleEntityDTO);
+        Optional<SampleEntity> result = updateSampleEntity.patch(id, sampleEntityDTO);
 
         return ResponseUtil.wrapOrNotFound(
                 result,
@@ -175,10 +175,10 @@ public class WriteThroughCacheEntityResource {
      */
     @GetMapping("/sample-entity/{id}")
     @Operation(summary = "/sample-entitys", security = @SecurityRequirement(name = "bearerAuth"))
-    public  Optional<WriteThroughCacheEntity> getA(@PathVariable Long id) {
+    public  Optional<SampleEntity> getA(@PathVariable Long id) {
         log.debug("REST request to get A : {}", id);
 
-        Optional<WriteThroughCacheEntity> a = readSampleEntity.findById(id);
+        Optional<SampleEntity> a = readSampleEntity.findById(id);
 		return a;
 
  

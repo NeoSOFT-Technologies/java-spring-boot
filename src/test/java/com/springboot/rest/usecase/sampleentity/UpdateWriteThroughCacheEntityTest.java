@@ -30,7 +30,7 @@ import com.springboot.rest.domain.port.api.UserServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import com.springboot.rest.infrastructure.entity.User;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 import com.springboot.rest.mapper.UserMapper;
@@ -45,7 +45,7 @@ class UpdateWriteThroughCacheEntityTest {
 	private static final Long DEFAULT_ID = 999l;
 	
     private WriteThroughCacheEntityMapper sampleEntityMapper;
-    private WriteThroughCacheEntity sampleEntity;
+    private SampleEntity sampleEntity;
     private WriteThroughCacheEntityDTO sampleEntityDto;
     
     @Autowired
@@ -60,7 +60,7 @@ class UpdateWriteThroughCacheEntityTest {
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new WriteThroughCacheEntity();
+		sampleEntity = new SampleEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
@@ -81,7 +81,7 @@ class UpdateWriteThroughCacheEntityTest {
     	Mockito.when(sampleEntityServicePort
     			.update(DEFAULT_ID, sampleEntityDto))
     			.thenReturn(null);    	
-    	WriteThroughCacheEntity updatedSampleEntity = updateSampleEntity.update(DEFAULT_ID, sampleEntityDto);
+    	SampleEntity updatedSampleEntity = updateSampleEntity.update(DEFAULT_ID, sampleEntityDto);
     	
     	assertNull(updatedSampleEntity);
     }
@@ -91,7 +91,7 @@ class UpdateWriteThroughCacheEntityTest {
     	Mockito.when(sampleEntityServicePort
     			.patch(DEFAULT_ID, sampleEntityDto))
     			.thenReturn(null);    	
-    	Optional<WriteThroughCacheEntity> patchedSampleEntity = updateSampleEntity.patch(DEFAULT_ID, sampleEntityDto);
+    	Optional<SampleEntity> patchedSampleEntity = updateSampleEntity.patch(DEFAULT_ID, sampleEntityDto);
     	
     	assertNull(patchedSampleEntity);
     }

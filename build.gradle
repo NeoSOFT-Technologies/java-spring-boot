@@ -200,6 +200,11 @@ dependencies {
 	implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
 
 
+// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter
+implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: '2.2.8.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
+implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.5.5'
 
 
     // import JHipster dependencies BOM

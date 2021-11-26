@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.infrastructure.adaptor.WriteThroughCacheEntityJPAAdaptor;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 @Configuration
 public class RedissonConfigWriteThrough implements InitializingBean {
@@ -42,8 +42,8 @@ public class RedissonConfigWriteThrough implements InitializingBean {
     
 
     @Bean
-    public RMapCache<Long, WriteThroughCacheEntity> userRMapCache() {
-        final RMapCache<Long, WriteThroughCacheEntity> userRMapCache = redissonClient.getMapCache(CACHE_NAME,MapOptions.<Long, WriteThroughCacheEntity>defaults()
+    public RMapCache<Long, SampleEntity> userRMapCache() {
+        final RMapCache<Long, SampleEntity> userRMapCache = redissonClient.getMapCache(CACHE_NAME,MapOptions.<Long, SampleEntity>defaults()
                 .writer(getMapWriter()).loader(getMapLoader())
                 .writeMode(MapOptions.WriteMode.WRITE_THROUGH));
         return userRMapCache;
@@ -56,11 +56,11 @@ public class RedissonConfigWriteThrough implements InitializingBean {
         return Redisson.create(config);
     }
 
-    private MapWriter<Long, WriteThroughCacheEntity> getMapWriter() {
-        return new MapWriter<Long, WriteThroughCacheEntity>() {
+    private MapWriter<Long, SampleEntity> getMapWriter() {
+        return new MapWriter<Long, SampleEntity>() {
 
             @Override
-            public void write(final Map<Long, WriteThroughCacheEntity> map) {
+            public void write(final Map<Long, SampleEntity> map) {
                 logger.info("*********************** write");
                 map.forEach( (k, v) -> {
                 	
@@ -87,8 +87,8 @@ public class RedissonConfigWriteThrough implements InitializingBean {
         };
     }
 
-    private MapLoader<Long, WriteThroughCacheEntity> getMapLoader() {
-        return new MapLoader<Long, WriteThroughCacheEntity>() {
+    private MapLoader<Long, SampleEntity> getMapLoader() {
+        return new MapLoader<Long, SampleEntity>() {
 
             @Override
             public Iterable<Long> loadAllKeys() {
@@ -107,7 +107,7 @@ public class RedissonConfigWriteThrough implements InitializingBean {
             }
 
             @Override
-            public WriteThroughCacheEntity load(Long key) {
+            public SampleEntity load(Long key) {
                 logger.info("*********************** User load(Long key)");
 //                return userRepository.getById(key);
                 

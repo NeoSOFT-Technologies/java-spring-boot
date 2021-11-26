@@ -1,18 +1,18 @@
 package com.springboot.rest.domain.port.spi;
 
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 
 public interface WriteThroughCacheEntityPersistencePort {
-    List<WriteThroughCacheEntity> findAll();
+    List<SampleEntity> findAll();
 
-    Optional<WriteThroughCacheEntity> findById(Long id);
+    Optional<SampleEntity> findById(Long id);
 
-    WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO);
+    SampleEntity save(WriteThroughCacheEntityDTO sampleEntityDTO);
 
     boolean existsById(Long id);
 
