@@ -6,25 +6,18 @@ import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
-public class UpdateSampleEntity {
+public class CreateWriteThroughCacheEntity {
 
     private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
 
-    public UpdateSampleEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
+    public CreateWriteThroughCacheEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 
-    public WriteThroughCacheEntity update(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
-        return sampleEntityServicePort.update(id, sampleEntityDTO);
+    public WriteThroughCacheEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
+        return sampleEntityServicePort.save(sampleEntityDTO);
     }
-
-    public Optional<WriteThroughCacheEntity> patch(Long id, WriteThroughCacheEntityDTO sampleEntityDTO) {
-        return sampleEntityServicePort.patch(id, sampleEntityDTO);
-    }
-
 
 }

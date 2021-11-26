@@ -1,10 +1,7 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
-import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
-import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
-import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-class ReadSampleEntityTest {
+class DeleteWriteThroughCacheEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
@@ -40,7 +37,7 @@ class ReadSampleEntityTest {
     private WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
-    private ReadSampleEntity readSampleEntity;
+    private DeleteWriteThroughCacheEntity deleteSampleEntity;
 
 	@BeforeEach
     public void init() {
@@ -52,7 +49,7 @@ class ReadSampleEntityTest {
 		sampleEntity.setPassword("Test@123");
 
         sampleEntityDto = new WriteThroughCacheEntityDTO(sampleEntity);
-        readSampleEntity = new ReadSampleEntity(sampleEntityServicePort);
+        deleteSampleEntity = new DeleteWriteThroughCacheEntity(sampleEntityServicePort);
     }
     
 	@Test
@@ -61,28 +58,11 @@ class ReadSampleEntityTest {
 	}
 	
     @Test
-    void findSampleEntitiesTest() {
-		List<WriteThroughCacheEntity> entities = new ArrayList<WriteThroughCacheEntity>();
-		
-		Mockito.when(sampleEntityServicePort.findAll().size() > 0)
-				.thenReturn(null);
-		
-		entities = readSampleEntity.findAll();
-		// testing
-		// System.out.println("Auths: "+authorities);
-		
-		assertNull(entities);
+    Boolean deleteSampleEntity() {
+    	Mockito.doNothing().when(sampleEntityServicePort)
+		.deleteById(sampleEntity.getId());
+    	deleteSampleEntity.deleteById(sampleEntity.getId());
+    	return true;
     }
-    
-//    @Test
-//    void findSampleEntityByIdTest() {
-//    	Mockito.when(sampleEntityPersistencePort
-//    			.findById(sampleEntityDto.getId())
-//    			.isPresent())
-//    			.thenReturn(null);    	
-//    	Optional<SampleEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
-//    	
-//    	//assertNull(fetchedSampleEntity);
-//    }
  
 }

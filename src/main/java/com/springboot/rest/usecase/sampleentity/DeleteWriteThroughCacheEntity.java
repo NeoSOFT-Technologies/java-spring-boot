@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class DeleteSampleEntity {
+public class DeleteWriteThroughCacheEntity {
 
     private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
 
-    public DeleteSampleEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
+    public DeleteWriteThroughCacheEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 

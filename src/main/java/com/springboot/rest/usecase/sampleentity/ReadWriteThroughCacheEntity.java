@@ -11,11 +11,11 @@ import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 
 @Service
 @Transactional
-public class ReadSampleEntity {
+public class ReadWriteThroughCacheEntity {
 
     private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
 
-    public ReadSampleEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
+    public ReadWriteThroughCacheEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 

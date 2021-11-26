@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
-import com.springboot.rest.usecase.sampleentity.CreateSampleEntity;
-import com.springboot.rest.usecase.sampleentity.DeleteSampleEntity;
-import com.springboot.rest.usecase.sampleentity.ReadSampleEntity;
-import com.springboot.rest.usecase.sampleentity.UpdateSampleEntity;
+import com.springboot.rest.usecase.sampleentity.CreateWriteThroughCacheEntity;
+import com.springboot.rest.usecase.sampleentity.DeleteWriteThroughCacheEntity;
+import com.springboot.rest.usecase.sampleentity.ReadWriteThroughCacheEntity;
+import com.springboot.rest.usecase.sampleentity.UpdateWriteThroughCacheEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,13 +50,13 @@ public class WriteThroughCacheEntityResource {
 
     //private final SampleEntityServicePort sampleEntityServicePort;
 
-    private final CreateSampleEntity createSampleEntity;
-    private final ReadSampleEntity readSampleEntity;
-    private final UpdateSampleEntity updateSampleEntity;
-    private final DeleteSampleEntity deleteSampleEntity;
+    private final CreateWriteThroughCacheEntity createSampleEntity;
+    private final ReadWriteThroughCacheEntity readSampleEntity;
+    private final UpdateWriteThroughCacheEntity updateSampleEntity;
+    private final DeleteWriteThroughCacheEntity deleteSampleEntity;
     
 
-    public WriteThroughCacheEntityResource(CreateSampleEntity createSampleEntity, ReadSampleEntity readSampleEntity, UpdateSampleEntity updateSampleEntity, DeleteSampleEntity deleteSampleEntity) {
+    public WriteThroughCacheEntityResource(CreateWriteThroughCacheEntity createSampleEntity, ReadWriteThroughCacheEntity readSampleEntity, UpdateWriteThroughCacheEntity updateSampleEntity, DeleteWriteThroughCacheEntity deleteSampleEntity) {
         //this.sampleEntityServicePort = sampleEntityServicePort;
         this.createSampleEntity=createSampleEntity;
         this.readSampleEntity=readSampleEntity;

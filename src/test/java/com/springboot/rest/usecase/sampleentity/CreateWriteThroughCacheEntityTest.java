@@ -1,7 +1,14 @@
 package com.springboot.rest.usecase.sampleentity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,19 +16,34 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.springboot.rest.domain.dto.AdminUserDTO;
 import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
 import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.api.UserServicePort;
 import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
+import com.springboot.rest.domain.port.spi.UserPersistencPort;
+import com.springboot.rest.domain.service.UserService;
 import com.springboot.rest.infrastructure.entity.WriteThroughCacheEntity;
+import com.springboot.rest.infrastructure.entity.User;
 import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
+import com.springboot.rest.mapper.UserMapper;
+import com.springboot.rest.security.AuthoritiesConstants;
 
+//@WebMvcTest
+//@AutoConfigureMockMvc
+//@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+//@SpringBootTest
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-class DeleteSampleEntityTest {
+class CreateWriteThroughCacheEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
@@ -37,7 +59,7 @@ class DeleteSampleEntityTest {
     private WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
-    private DeleteSampleEntity deleteSampleEntity;
+    private CreateWriteThroughCacheEntity createSampleEntity;
 
 	@BeforeEach
     public void init() {
@@ -49,7 +71,7 @@ class DeleteSampleEntityTest {
 		sampleEntity.setPassword("Test@123");
 
         sampleEntityDto = new WriteThroughCacheEntityDTO(sampleEntity);
-        deleteSampleEntity = new DeleteSampleEntity(sampleEntityServicePort);
+        createSampleEntity = new CreateWriteThroughCacheEntity(sampleEntityServicePort);
     }
     
 	@Test
@@ -58,11 +80,14 @@ class DeleteSampleEntityTest {
 	}
 	
     @Test
-    Boolean deleteSampleEntity() {
-    	Mockito.doNothing().when(sampleEntityServicePort)
-		.deleteById(sampleEntity.getId());
-    	deleteSampleEntity.deleteById(sampleEntity.getId());
-    	return true;
+    void saveSampleEntity() {
+    	Mockito.when(sampleEntityPersistencePort
+    			.findById(sampleEntityDto.getId())
+    			.isPresent())
+    			.thenReturn(null);    	
+    	WriteThroughCacheEntity createdSampleEntity = createSampleEntity.save(sampleEntityDto);
+    	
+    	assertNull(createdSampleEntity);
     }
  
 }

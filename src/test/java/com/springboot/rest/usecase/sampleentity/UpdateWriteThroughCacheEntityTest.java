@@ -39,7 +39,7 @@ import com.springboot.rest.security.AuthoritiesConstants;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-class UpdateSampleEntityTest {
+class UpdateWriteThroughCacheEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	private static final Long DEFAULT_ID = 999l;
@@ -56,7 +56,7 @@ class UpdateSampleEntityTest {
     private WriteThroughCacheEntityPersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
-    private UpdateSampleEntity updateSampleEntity;
+    private UpdateWriteThroughCacheEntity updateSampleEntity;
 
 	@BeforeEach
     public void init() {
@@ -68,7 +68,7 @@ class UpdateSampleEntityTest {
 		sampleEntity.setPassword("Test@123");
 
         sampleEntityDto = new WriteThroughCacheEntityDTO(sampleEntity);
-        updateSampleEntity = new UpdateSampleEntity(sampleEntityServicePort);
+        updateSampleEntity = new UpdateWriteThroughCacheEntity(sampleEntityServicePort);
     }
     
 	@Test
