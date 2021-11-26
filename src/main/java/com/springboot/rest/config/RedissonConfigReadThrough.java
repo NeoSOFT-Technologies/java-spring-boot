@@ -22,19 +22,19 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
-import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.infrastructure.repository.ReadThroughEntityRepository;
 @Configuration
 @Transactional
 public class RedissonConfigReadThrough implements InitializingBean{
 
 	private final String CACHE_NAME = "sampleEntity";
-	//private SampleEntity2Mapper sampleMapper;
+	//private ReadThroughEntityMapper sampleMapper;
 	
 	private RedissonClient reddissonClient;
 	
 	@Autowired
-	private SampleEntity2Repository sampleEntity2JpaAdapter;
+	private ReadThroughEntityRepository sampleEntity2JpaAdapter;
 	
 	Logger logger = LoggerFactory.getLogger(RedissonConfigReadThrough.class);
 	
@@ -49,8 +49,8 @@ public class RedissonConfigReadThrough implements InitializingBean{
 	}
 	
 	@Bean
-	public RMapCache<Long, SampleEntity2> sampleRMapCache(){
-		return reddissonClient.getMapCache(CACHE_NAME,MapOptions.<Long, SampleEntity2>defaults()
+	public RMapCache<Long, ReadThroughEntity> sampleRMapCache(){
+		return reddissonClient.getMapCache(CACHE_NAME,MapOptions.<Long, ReadThroughEntity>defaults()
 				.loader(getMapLoader()));
 	}
 
@@ -68,11 +68,11 @@ public class RedissonConfigReadThrough implements InitializingBean{
 		
 	}
 	
-//	private MapWriter<Long, SampleEntity2> getMapWriter() {
-//        return new MapWriter<Long, SampleEntity2>() {
+//	private MapWriter<Long, ReadThroughEntity> getMapWriter() {
+//        return new MapWriter<Long, ReadThroughEntity>() {
 //
 //            @Override
-//            public void write(final Map<Long, SampleEntity2> map) {
+//            public void write(final Map<Long, ReadThroughEntity> map) {
 //                logger.info("*********************** write");
 //                map.forEach( (k, v) -> {
 //                    sampleEntity2JpaAdapter.save(sampleMapper.entityToDto(v));
@@ -88,12 +88,12 @@ public class RedissonConfigReadThrough implements InitializingBean{
 //            }
 //        };
 //    }
-	private MapLoader<Long, SampleEntity2> getMapLoader(){
-		return new MapLoader<Long, SampleEntity2>() {
+	private MapLoader<Long, ReadThroughEntity> getMapLoader(){
+		return new MapLoader<Long, ReadThroughEntity>() {
 
 			@Override
-			public SampleEntity2 load(Long key) {
-				logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ SampleEntity2 load(Long key)");
+			public ReadThroughEntity load(Long key) {
+				logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ReadThroughEntity load(Long key)");
 				
 				return sampleEntity2JpaAdapter.findById(key).get();
 			}
@@ -107,8 +107,8 @@ public class RedissonConfigReadThrough implements InitializingBean{
 					 * 
 					 */
 					private static final long serialVersionUID = 1L;};
-				List<SampleEntity2> list1 = sampleEntity2JpaAdapter.findAll();
-				for(SampleEntity2 sample : list1) {
+				List<ReadThroughEntity> list1 = sampleEntity2JpaAdapter.findAll();
+				for(ReadThroughEntity sample : list1) {
 					list.add(sample.getId());
 				}
 				return list;

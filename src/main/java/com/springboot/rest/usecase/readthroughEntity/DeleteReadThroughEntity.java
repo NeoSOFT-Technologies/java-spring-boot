@@ -1,4 +1,4 @@
-package com.springboot.rest.usecase.sampleentity2;
+package com.springboot.rest.usecase.readthroughEntity;
 
 import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
 import org.springframework.stereotype.Service;
@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class DeleteSampleEntity2 {
+public class DeleteReadThroughEntity {
 
     private final SampleEntity2ServicePort sampleEntity2ServicePort;
 
-    public DeleteSampleEntity2(SampleEntity2ServicePort sampleEntity2ServicePort) {
+    public DeleteReadThroughEntity(SampleEntity2ServicePort sampleEntity2ServicePort) {
         this.sampleEntity2ServicePort = sampleEntity2ServicePort;
     }
 

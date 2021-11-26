@@ -2,7 +2,7 @@ package com.springboot.rest.usecase.authority;
 
 import com.springboot.rest.domain.port.api.AuthorityServicePort;
 import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

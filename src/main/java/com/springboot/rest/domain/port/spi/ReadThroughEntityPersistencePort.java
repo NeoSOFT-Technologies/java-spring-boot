@@ -3,16 +3,16 @@ package com.springboot.rest.domain.port.spi;
 import java.util.List;
 import java.util.Optional;
 
-import com.springboot.rest.domain.dto.SampleEntity2DTO;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
+import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
 
 
-public interface SampleEntity2PersistencePort {
-    List<SampleEntity2> findAll();
+public interface ReadThroughEntityPersistencePort {
+    List<ReadThroughEntity> findAll();
 
-    Optional<SampleEntity2> findById(Long id);
+    Optional<ReadThroughEntity> findById(Long id);
 
-    SampleEntity2 save(SampleEntity2DTO sampleEntity2DTO);
+    ReadThroughEntity save(ReadThroughEntityDTO readThroughEntityDTO);
 
     boolean existsById(Long id);
 

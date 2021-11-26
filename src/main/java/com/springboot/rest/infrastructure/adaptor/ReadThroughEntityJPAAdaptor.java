@@ -1,10 +1,10 @@
 package com.springboot.rest.infrastructure.adaptor;
 
-import com.springboot.rest.domain.dto.SampleEntity2DTO;
-import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
-import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
-import com.springboot.rest.mapper.SampleEntity2Mapper;
+import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
+import com.springboot.rest.domain.port.spi.ReadThroughEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.infrastructure.repository.ReadThroughEntityRepository;
+import com.springboot.rest.mapper.ReadThroughEntityMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,42 +15,42 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class SampleEntity2JPAAdaptor implements SampleEntity2PersistencePort {
+public class ReadThroughEntityJPAAdaptor implements ReadThroughEntityPersistencePort {
 
     @Autowired
-    private final SampleEntity2Repository sampleEntity2Repository;
+    private final ReadThroughEntityRepository readThroughEntityRepository;
 
-    private final SampleEntity2Mapper sampleEntity2Mapper;
+    private final ReadThroughEntityMapper readThroughEntityMapper;
     
-    public SampleEntity2JPAAdaptor(SampleEntity2Repository sampleEntity2Repository, SampleEntity2Mapper sampleEntity2Mapper) {
-        this.sampleEntity2Repository = sampleEntity2Repository;
-        this.sampleEntity2Mapper = sampleEntity2Mapper;
+    public ReadThroughEntityJPAAdaptor(ReadThroughEntityRepository readThroughEntityRepository, ReadThroughEntityMapper readThroughEntityMapper) {
+        this.readThroughEntityRepository = readThroughEntityRepository;
+        this.readThroughEntityMapper = readThroughEntityMapper;
     }
 
-    public List<SampleEntity2> findAll() {
-        return sampleEntity2Repository.findAll();
+    public List<ReadThroughEntity> findAll() {
+        return readThroughEntityRepository.findAll();
     }
 
     @Override
-    public Optional<SampleEntity2> findById(Long id) {
-        return sampleEntity2Repository.findById(id);
+    public Optional<ReadThroughEntity> findById(Long id) {
+        return readThroughEntityRepository.findById(id);
     }
 
-    public SampleEntity2 save(SampleEntity2DTO sampleEntity2DTO) {
+    public ReadThroughEntity save(ReadThroughEntityDTO readThroughEntityDTO) {
 
-        // SampleEntity2DTO to SampleEntity2 conversion
-    	SampleEntity2 sampleEntity2 = sampleEntity2Mapper.dtoToEntity(sampleEntity2DTO);
-        return sampleEntity2Repository.save(sampleEntity2);
+        // ReadThroughEntityDTO to ReadThroughEntity conversion
+    	ReadThroughEntity readThroughEntity = readThroughEntityMapper.dtoToEntity(readThroughEntityDTO);
+        return readThroughEntityRepository.save(readThroughEntity);
     }
 
     @Override
     public boolean existsById(Long id) {
-        return sampleEntity2Repository.existsById(id);
+        return readThroughEntityRepository.existsById(id);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        sampleEntity2Repository.deleteById(id);
+        readThroughEntityRepository.deleteById(id);
         return true;
     }
 

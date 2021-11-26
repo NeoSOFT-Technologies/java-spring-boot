@@ -2,7 +2,7 @@ package com.springboot.rest.rest;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
 import com.springboot.rest.domain.dto.PasswordChangeDTO;
-import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
 import com.springboot.rest.domain.port.api.MailServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
 import com.springboot.rest.infrastructure.entity.User;

@@ -1,11 +1,11 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
 import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
-import com.springboot.rest.mapper.SampleEntity2Mapper;
-import com.springboot.rest.usecase.sampleentity2.ReadSampleEntity2;
+import com.springboot.rest.domain.port.spi.ReadThroughEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.mapper.ReadThroughEntityMapper;
+import com.springboot.rest.usecase.readthroughEntity.ReadReadThroughEntity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,31 +30,31 @@ class ReadSampleEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntity2Mapper sampleEntity2Mapper;
-    private SampleEntity2 sampleEntity2;
-    private SampleEntity2DTO sampleEntityDto;
+    private ReadThroughEntityMapper readThroughEntityMapper;
+    private ReadThroughEntity readThroughEntity;
+    private ReadThroughEntityDTO sampleEntityDto;
     
     @Autowired
     @MockBean
     private SampleEntity2ServicePort sampleEntity2ServicePort;
     
     @MockBean
-    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
+    private ReadThroughEntityPersistencePort readThroughEntityPersistencePort;
     
     @InjectMocks
-    private ReadSampleEntity2 readSampleEntity2;
+    private ReadReadThroughEntity readReadThroughEntity;
 
 	@BeforeEach
     public void init() {
-		sampleEntity2 = new SampleEntity2();
-		sampleEntity2.setId(99l);
-		sampleEntity2.setAge(20);
-		sampleEntity2.setName("Test Sample");
-		sampleEntity2.setPhone(2848);
-		sampleEntity2.setPassword("Test@123");
+		readThroughEntity = new ReadThroughEntity();
+		readThroughEntity.setId(99l);
+		readThroughEntity.setAge(20);
+		readThroughEntity.setName("Test Sample");
+		readThroughEntity.setPhone(2848);
+		readThroughEntity.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntity2DTO(sampleEntity2);
-        readSampleEntity2 = new ReadSampleEntity2(sampleEntity2ServicePort);
+        sampleEntityDto = new ReadThroughEntityDTO(readThroughEntity);
+        readReadThroughEntity = new ReadReadThroughEntity(sampleEntity2ServicePort);
     }
     
 	@Test
@@ -64,12 +64,12 @@ class ReadSampleEntityTest {
 	
     @Test
     void findSampleEntitiesTest() {
-		List<SampleEntity2> entities = new ArrayList<SampleEntity2>();
+		List<ReadThroughEntity> entities = new ArrayList<ReadThroughEntity>();
 		
 		Mockito.when(sampleEntity2ServicePort.findAll().size() > 0)
 				.thenReturn(null);
 		
-		entities = readSampleEntity2.findAll();
+		entities = readReadThroughEntity.findAll();
 		// testing
 		// System.out.println("Auths: "+authorities);
 		
@@ -78,11 +78,11 @@ class ReadSampleEntityTest {
     
     @Test
     void findSampleEntityByIdTest() {
-    	Mockito.when(sampleEntity2PersistencePort
+    	Mockito.when(readThroughEntityPersistencePort
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	Optional<SampleEntity2> fetchedSampleEntity = readSampleEntity2.findById(sampleEntity2.getId());
+    	Optional<ReadThroughEntity> fetchedSampleEntity = readReadThroughEntity.findById(readThroughEntity.getId());
     	
     	//assertNull(fetchedSampleEntity);
     }

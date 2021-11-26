@@ -27,13 +27,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
-import com.springboot.rest.domain.service.SampleEntity2Service;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
-import com.springboot.rest.infrastructure.repository.SampleEntity2Repository;
+import com.springboot.rest.domain.port.spi.ReadThroughEntityPersistencePort;
+import com.springboot.rest.domain.service.ReadThroughEntityService;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.infrastructure.repository.ReadThroughEntityRepository;
 
 /**
- * Integration tests for the {@link SampleEntity2Resource} REST controller.
+ * Integration tests for the {@link ReadThroughEntityResource} REST controller.
  */
 //@IntegrationTest
 @AutoConfigureMockMvc
@@ -59,13 +59,13 @@ class SampleEntityResourceIT {
     private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
-    private SampleEntity2Repository sampleEntity2Repository;
+    private ReadThroughEntityRepository readThroughEntityRepository;
     
     @Mock
-    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
+    private ReadThroughEntityPersistencePort readThroughEntityPersistencePort;
     
     @Mock
-    private SampleEntity2Service sampleEntity2Service;
+    private ReadThroughEntityService readThroughEntityService;
 
    
     @Autowired
@@ -74,52 +74,52 @@ class SampleEntityResourceIT {
     @Autowired
     private MockMvc restAMockMvc;
 
-    private SampleEntity2 sampleEntity2;
+    private ReadThroughEntity readThroughEntity;
 
     /**
      * Create an entity for this test.
      *
-     * This is sampleEntity2 static method, as tests for other entities might also need it,
+     * This is readThroughEntity static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SampleEntity2 createEntity(EntityManager em) {
-        SampleEntity2 sampleEntity2 = new SampleEntity2().name(DEFAULT_NAME).password(DEFAULT_PASSWORD).age(DEFAULT_AGE).phone(DEFAULT_PHONE);
-        return sampleEntity2;
+    public static ReadThroughEntity createEntity(EntityManager em) {
+        ReadThroughEntity readThroughEntity = new ReadThroughEntity().name(DEFAULT_NAME).password(DEFAULT_PASSWORD).age(DEFAULT_AGE).phone(DEFAULT_PHONE);
+        return readThroughEntity;
     }
 
     /**
      * Create an updated entity for this test.
      *
-     * This is sampleEntity2 static method, as tests for other entities might also need it,
+     * This is readThroughEntity static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SampleEntity2 createUpdatedEntity(EntityManager em) {
-        SampleEntity2 sampleEntity2 = new SampleEntity2().name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
-        return sampleEntity2;
+    public static ReadThroughEntity createUpdatedEntity(EntityManager em) {
+        ReadThroughEntity readThroughEntity = new ReadThroughEntity().name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
+        return readThroughEntity;
     }
 
     @BeforeEach
     public void initTest() {
-        sampleEntity2 = createEntity(em);
+        readThroughEntity = createEntity(em);
     }
 
     @Test
     @Transactional
     void createSampleEntity() throws Exception {
-        int databaseSizeBeforeCreate = sampleEntity2Repository.findAll().size();
-        // Create the SampleEntity2
+        int databaseSizeBeforeCreate = readThroughEntityRepository.findAll().size();
+        // Create the ReadThroughEntity
 
         restAMockMvc
                 .perform(MockMvcRequestBuilders.post(ENTITY_API_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(sampleEntity2)))
+                        .content(TestUtil.convertObjectToJsonBytes(readThroughEntity)))
                 .andExpect(status().isCreated());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntitiesList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntitiesList = readThroughEntityRepository.findAll();
         assertThat(sampleEntitiesList.size()).isEqualTo(databaseSizeBeforeCreate + 1);
 
-        SampleEntity2 testSampleEntity = sampleEntitiesList.get(sampleEntitiesList.size() - 1);
+        ReadThroughEntity testSampleEntity = sampleEntitiesList.get(sampleEntitiesList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(DEFAULT_AGE);
@@ -129,20 +129,20 @@ class SampleEntityResourceIT {
     @Test
     @Transactional
     void createSampleEntityWithExistingId() throws Exception {
-        // Create the SampleEntity2 with an existing ID
-        sampleEntity2.setId(1L);
+        // Create the ReadThroughEntity with an existing ID
+        readThroughEntity.setId(1L);
 
-        int databaseSizeBeforeCreate = sampleEntity2Repository.findAll().size();
+        int databaseSizeBeforeCreate = readThroughEntityRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAMockMvc
                 .perform(MockMvcRequestBuilders.post(ENTITY_API_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(sampleEntity2)))
+                        .content(TestUtil.convertObjectToJsonBytes(readThroughEntity)))
                 .andExpect(status().isBadRequest());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityListList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityListList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityListList.size()).isEqualTo(databaseSizeBeforeCreate);
     }
 
@@ -150,15 +150,15 @@ class SampleEntityResourceIT {
     @Transactional
     void getAllSampleEntities() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
 
         // Get all the sampleEntityList
         restAMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].id").value(hasItem(sampleEntity2.getId().intValue())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*]['id']").value(hasItem(sampleEntity2.getId().intValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].id").value(hasItem(readThroughEntity.getId().intValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*]['id']").value(hasItem(readThroughEntity.getId().intValue())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].name").value(hasItem(DEFAULT_NAME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].password").value(hasItem(DEFAULT_PASSWORD)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].age").value(hasItem(DEFAULT_AGE)))
@@ -169,14 +169,14 @@ class SampleEntityResourceIT {
     @Transactional
     void getSampleEntity() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
      
-        // Get the sampleEntity2
+        // Get the readThroughEntity
         restAMockMvc
-            .perform(get(ENTITY_API_URL_ID, sampleEntity2.getId()))
+            .perform(get(ENTITY_API_URL_ID, readThroughEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sampleEntity2.getId().intValue()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(readThroughEntity.getId().intValue()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(MockMvcResultMatchers.jsonPath("$.password").value(DEFAULT_PASSWORD))
             .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(DEFAULT_AGE))
@@ -186,7 +186,7 @@ class SampleEntityResourceIT {
     @Test
     @Transactional
     void getNonExistingSampleEntity() throws Exception {
-        // Get the sampleEntity2
+        // Get the readThroughEntity
         restAMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
@@ -195,12 +195,12 @@ class SampleEntityResourceIT {
     @Transactional
     void putNewSampleEntity() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
 
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
 
-        // Update the sampleEntity2
-        SampleEntity2 updatedSampleEntity = sampleEntity2Repository.findById(sampleEntity2.getId()).get();
+        // Update the readThroughEntity
+        ReadThroughEntity updatedSampleEntity = readThroughEntityRepository.findById(readThroughEntity.getId()).get();
         // Disconnect from session so that the updates on updatedA are not directly saved in db
         em.detach(updatedSampleEntity);
         updatedSampleEntity.name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
@@ -213,10 +213,10 @@ class SampleEntityResourceIT {
             )
             .andExpect(status().isOk());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity2 testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        ReadThroughEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(UPDATED_AGE);
@@ -226,54 +226,54 @@ class SampleEntityResourceIT {
     @Test
     @Transactional
     void putNonExistingSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, sampleEntity2.getId()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(sampleEntity2))
+                put(ENTITY_API_URL_ID, readThroughEntity.getId()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(readThroughEntity))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithIdMismatchSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(sampleEntity2))
+                    .content(TestUtil.convertObjectToJsonBytes(readThroughEntity))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void putWithMissingIdPathParamSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(sampleEntity2)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(readThroughEntity)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -281,13 +281,13 @@ class SampleEntityResourceIT {
     @Transactional
     void partialUpdateSampleEntityWithPatch() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
 
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
 
-        // Update the sampleEntity2 using partial update
-        SampleEntity2 partialUpdatedSampleEntity = new SampleEntity2();
-        partialUpdatedSampleEntity.setId(sampleEntity2.getId());
+        // Update the readThroughEntity using partial update
+        ReadThroughEntity partialUpdatedSampleEntity = new ReadThroughEntity();
+        partialUpdatedSampleEntity.setId(readThroughEntity.getId());
 
         partialUpdatedSampleEntity.name(UPDATED_NAME);
 
@@ -299,10 +299,10 @@ class SampleEntityResourceIT {
             )
             .andExpect(status().isOk());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity2 testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        ReadThroughEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(DEFAULT_AGE);
@@ -313,13 +313,13 @@ class SampleEntityResourceIT {
     @Transactional
     void fullUpdateSampleEntityWithPatch() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
 
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
 
-        // Update the sampleEntity2 using partial update
-        SampleEntity2 partialUpdatedSampleEntity = new SampleEntity2();
-        partialUpdatedSampleEntity.setId(sampleEntity2.getId());
+        // Update the readThroughEntity using partial update
+        ReadThroughEntity partialUpdatedSampleEntity = new ReadThroughEntity();
+        partialUpdatedSampleEntity.setId(readThroughEntity.getId());
 
         partialUpdatedSampleEntity.name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
 
@@ -331,10 +331,10 @@ class SampleEntityResourceIT {
             )
             .andExpect(status().isOk());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity2 testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        ReadThroughEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(UPDATED_AGE);
@@ -344,56 +344,56 @@ class SampleEntityResourceIT {
     @Test
     @Transactional
     void patchNonExistingSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, sampleEntity2.getId())
+                patch(ENTITY_API_URL_ID, readThroughEntity.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(sampleEntity2))
+                    .content(TestUtil.convertObjectToJsonBytes(readThroughEntity))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithIdMismatchSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(sampleEntity2))
+                    .content(TestUtil.convertObjectToJsonBytes(readThroughEntity))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     void patchWithMissingIdPathParamSampleEntity() throws Exception {
-        int databaseSizeBeforeUpdate = sampleEntity2Repository.findAll().size();
-        sampleEntity2.setId(count.incrementAndGet());
+        int databaseSizeBeforeUpdate = readThroughEntityRepository.findAll().size();
+        readThroughEntity.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(sampleEntity2)))
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(readThroughEntity)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the SampleEntity2 in the database
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        // Validate the ReadThroughEntity in the database
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -401,15 +401,15 @@ class SampleEntityResourceIT {
     @Transactional
     void deleteSampleEntity() throws Exception {
         // Initialize the database
-        sampleEntity2Repository.saveAndFlush(sampleEntity2);
+        readThroughEntityRepository.saveAndFlush(readThroughEntity);
 
-        int databaseSizeBeforeDelete = sampleEntity2Repository.findAll().size();
+        int databaseSizeBeforeDelete = readThroughEntityRepository.findAll().size();
 
-        // Delete the sampleEntity2
-        restAMockMvc.perform(delete(ENTITY_API_URL_ID, sampleEntity2.getId()).accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
+        // Delete the readThroughEntity
+        restAMockMvc.perform(delete(ENTITY_API_URL_ID, readThroughEntity.getId()).accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<SampleEntity2> sampleEntityList = sampleEntity2Repository.findAll();
+        List<ReadThroughEntity> sampleEntityList = readThroughEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeDelete - 1);
     }
 }

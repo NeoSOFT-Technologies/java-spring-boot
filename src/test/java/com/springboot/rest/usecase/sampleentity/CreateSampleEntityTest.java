@@ -24,18 +24,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntity2DTO;
+import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
 import com.springboot.rest.domain.port.api.SampleEntity2ServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntity2PersistencePort;
+import com.springboot.rest.domain.port.spi.ReadThroughEntityPersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.SampleEntity2;
+import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
 import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.mapper.SampleEntity2Mapper;
+import com.springboot.rest.mapper.ReadThroughEntityMapper;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
-import com.springboot.rest.usecase.sampleentity2.CreateSampleEntity2;
+import com.springboot.rest.usecase.readthroughEntity.CreateReadThroughEntity;
 
 //@WebMvcTest
 //@AutoConfigureMockMvc
@@ -48,31 +48,31 @@ class CreateSampleEntityTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntity2Mapper sampleEntity2Mapper;
-    private SampleEntity2 sampleEntity2;
-    private SampleEntity2DTO sampleEntityDto;
+    private ReadThroughEntityMapper readThroughEntityMapper;
+    private ReadThroughEntity readThroughEntity;
+    private ReadThroughEntityDTO sampleEntityDto;
     
     @Autowired
     @MockBean
     private SampleEntity2ServicePort sampleEntity2ServicePort;
     
     @MockBean
-    private SampleEntity2PersistencePort sampleEntity2PersistencePort;
+    private ReadThroughEntityPersistencePort readThroughEntityPersistencePort;
     
     @InjectMocks
-    private CreateSampleEntity2 createSampleEntity2;
+    private CreateReadThroughEntity createReadThroughEntity;
 
 	@BeforeEach
     public void init() {
-		sampleEntity2 = new SampleEntity2();
-		sampleEntity2.setId(99l);
-		sampleEntity2.setAge(20);
-		sampleEntity2.setName("Test Sample");
-		sampleEntity2.setPhone(2848);
-		sampleEntity2.setPassword("Test@123");
+		readThroughEntity = new ReadThroughEntity();
+		readThroughEntity.setId(99l);
+		readThroughEntity.setAge(20);
+		readThroughEntity.setName("Test Sample");
+		readThroughEntity.setPhone(2848);
+		readThroughEntity.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntity2DTO(sampleEntity2);
-        createSampleEntity2 = new CreateSampleEntity2(sampleEntity2ServicePort);
+        sampleEntityDto = new ReadThroughEntityDTO(readThroughEntity);
+        createReadThroughEntity = new CreateReadThroughEntity(sampleEntity2ServicePort);
     }
     
 	@Test
@@ -82,11 +82,11 @@ class CreateSampleEntityTest {
 	
     @Test
     void saveSampleEntity() {
-    	Mockito.when(sampleEntity2PersistencePort
+    	Mockito.when(readThroughEntityPersistencePort
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	SampleEntity2 createdSampleEntity = createSampleEntity2.save(sampleEntityDto);
+    	ReadThroughEntity createdSampleEntity = createReadThroughEntity.save(sampleEntityDto);
     	
     	assertNull(createdSampleEntity);
     }

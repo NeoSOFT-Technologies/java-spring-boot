@@ -19,7 +19,7 @@ import lombok.Data;
 @Table(name = "a")
 
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class SampleEntity2 implements Serializable {
+public class ReadThroughEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,25 +40,25 @@ public class SampleEntity2 implements Serializable {
     private Integer phone;
 
 
-    public SampleEntity2 name(String name) {
+    public ReadThroughEntity name(String name) {
         this.name = name;
         return this;
     }
 
 
-    public SampleEntity2 password(String password) {
+    public ReadThroughEntity password(String password) {
         this.password = password;
         return this;
     }
 
 
-    public SampleEntity2 age(Integer age) {
+    public ReadThroughEntity age(Integer age) {
         this.age = age;
         return this;
     }
 
 
-    public SampleEntity2 phone(Integer phone) {
+    public ReadThroughEntity phone(Integer phone) {
         this.phone = phone;
         return this;
     }
@@ -72,10 +72,10 @@ public class SampleEntity2 implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SampleEntity2)) {
+        if (!(o instanceof ReadThroughEntity)) {
             return false;
         }
-        return id != null && id.equals(((SampleEntity2) o).id);
+        return id != null && id.equals(((ReadThroughEntity) o).id);
     }
 
     @Override
