@@ -96,10 +96,12 @@ spring:
       hibernate.connection.provider_disables_autocommit: true
       #hibernate.cache.use_second_level_cache: true
       #hibernate.cache.use_query_cache: false
+
       
       spring.cache.type : redis
       spring.cache.redis.cache-null-values : true
       
+
       hibernate.generate_statistics: false
       # modify batch size as necessary
       hibernate.jdbc.batch_size: 25
@@ -107,6 +109,8 @@ spring:
       hibernate.order_updates: true
       hibernate.query.fail_on_pagination_over_collection_fetch: true
       hibernate.query.in_clause_parameter_padding: true
+      #spring.cache.type: redis
+      #spring.cache.redis.cache-null-values: true
     hibernate:
       ddl-auto: none
       naming:

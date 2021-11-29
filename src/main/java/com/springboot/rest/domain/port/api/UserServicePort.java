@@ -27,6 +27,6 @@ public interface UserServicePort {
     Optional<User> getUserWithAuthorities();
     void removeNotActivatedUsers();
     Page<UserDTO> getAllPublicUsers(Pageable pageable);
-    void clearUserCaches(User user);
+   // void clearUserCaches(User user);
 
 }

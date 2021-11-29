@@ -1,16 +1,32 @@
 package com.springboot.rest.rest;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.springboot.rest.domain.dto.AdminUserDTO;
 import com.springboot.rest.domain.dto.PasswordChangeDTO;
-import com.springboot.rest.domain.dto.CacheAsideDTO;
-import com.springboot.rest.domain.port.api.MailServicePort;
-import com.springboot.rest.domain.port.api.UserServicePort;
 import com.springboot.rest.infrastructure.entity.User;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.rest.errors.AccountResourceException;
 import com.springboot.rest.rest.errors.EmailAlreadyUsedException;
+import com.springboot.rest.rest.errors.InvalidPasswordException;
 import com.springboot.rest.rest.errors.LoginAlreadyUsedException;
 import com.springboot.rest.rest.vm.KeyAndPasswordVM;
+import com.springboot.rest.rest.vm.ManagedUserVM;
 import com.springboot.rest.security.SecurityUtils;
 import com.springboot.rest.usecase.mail.SendMail;
 import com.springboot.rest.usecase.user.CreateUser;
@@ -18,19 +34,9 @@ import com.springboot.rest.usecase.user.DeleteUser;
 import com.springboot.rest.usecase.user.ReadUser;
 import com.springboot.rest.usecase.user.RegisterUser;
 import com.springboot.rest.usecase.user.UpdateUser;
-import com.springboot.rest.rest.errors.InvalidPasswordException;
-import com.springboot.rest.rest.vm.ManagedUserVM;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.

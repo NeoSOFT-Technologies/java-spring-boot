@@ -74,10 +74,6 @@ class AccountResourceIT {
     private PasswordEncoder passwordEncoder;
     
     private final UserMapper userMapper = new UserMapper();
-    
-//    @Autowired
-//    private CacheManager cacheManager;
-
     @Autowired
     private MockMvc restAccountMockMvc;
 

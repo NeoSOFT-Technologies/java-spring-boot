@@ -53,7 +53,6 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     public UserJPAAdaptor(PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
-        //this.cacheManager = cacheManager;
         this.userMapper = userMapper;
     }
 
@@ -63,7 +62,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             // activate given user for the registration key.
             user.setActivated(true);
             user.setActivationKey(null);
-            this.clearUserCaches(user);
+           // this.clearUserCaches(user);
             log.debug("Activated user: {}", user);
             return user;
         });
@@ -196,7 +195,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
         }
         userRepository.delete(existingUser);
         userRepository.flush();
-        //this.clearUserCaches(existingUser);
+
         return true;
     }
 
@@ -225,12 +224,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     }
 
-    private void clearUserCaches(User user) {
-//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-//        if (user.getEmail() != null) {
-//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-//        }
-    }
+
 
     public Optional<User> findOneByResetKey(String key) {
         return userRepository.findOneByResetKey(key);

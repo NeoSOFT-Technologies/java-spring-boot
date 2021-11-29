@@ -1,13 +1,11 @@
 package com.springboot.rest.usecase.authority;
 
-import com.springboot.rest.domain.port.api.AuthorityServicePort;
-import com.springboot.rest.domain.port.api.CacheAsideServicePort;
-import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.springboot.rest.domain.port.api.AuthorityServicePort;
 
 @Service
 @Transactional

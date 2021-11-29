@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -50,11 +49,13 @@ public class UserService implements UserServicePort {
 	 * cacheManager; }
 	 */
     
+
     public UserService(UserPersistencPort userRepository,UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    
         this.userPersistencePort = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        //this.cacheManager = cacheManager;
+
     }
 
     @Override
@@ -297,12 +298,5 @@ public class UserService implements UserServicePort {
         return userPersistencePort.getAllPublicUsers(pageable);
     }
 
-    @Override
-    public void clearUserCaches(User user) {
-//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-//        if (user.getEmail() != null) {
-//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-//        }
-    }
 
 }
