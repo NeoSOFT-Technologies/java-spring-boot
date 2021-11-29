@@ -35,27 +35,16 @@ public class UserService implements UserServicePort {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserPersistencPort userPersistencePort;
-    
+
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
 
-    //private final CacheManager cacheManager;
+    public UserService(UserPersistencPort userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
 
-	/*
-	 * public UserService(UserPersistencPort userRepository, PasswordEncoder
-	 * passwordEncoder, CacheManager cacheManager) { this.userPersistencePort =
-	 * userRepository; this.passwordEncoder = passwordEncoder; this.cacheManager =
-	 * cacheManager; }
-	 */
-    
-
-    public UserService(UserPersistencPort userRepository,UserMapper userMapper, PasswordEncoder passwordEncoder) {
-    
         this.userPersistencePort = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-
     }
 
     @Override
@@ -65,7 +54,7 @@ public class UserService implements UserServicePort {
             // activate given user for the registration key.
             user.setActivated(true);
             user.setActivationKey(null);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Activated user: {}", user);
             return user;
         });
@@ -78,7 +67,7 @@ public class UserService implements UserServicePort {
             user.setPassword(passwordEncoder.encode(newPassword));
             user.setResetKey(null);
             user.setResetDate(null);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             return user;
         });
     }
@@ -88,7 +77,7 @@ public class UserService implements UserServicePort {
         return userPersistencePort.findOneByEmailIgnoreCase(mail).filter(User::isActivated).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(Instant.now());
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             return user;
         });
     }
@@ -110,7 +99,6 @@ public class UserService implements UserServicePort {
 
         return userPersistencePort.save(userDTO, password);
 
-       
     }
 
     @Override
@@ -119,13 +107,13 @@ public class UserService implements UserServicePort {
             return false;
         }
         userPersistencePort.delete(existingUser);
-        //this.clearUserCaches(existingUser);
+        // this.clearUserCaches(existingUser);
         return true;
     }
 
     @Override
-    public User createUser(AdminUserDTO userDTO) {        
-    	
+    public User createUser(AdminUserDTO userDTO) {
+
         if (userDTO.getId() != null) {
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
             // Lowercase the user login before comparing with database
@@ -136,7 +124,7 @@ public class UserService implements UserServicePort {
         } else {
             return userPersistencePort.createUser(userDTO);
         }
-       
+
     }
 
     /**
@@ -151,7 +139,7 @@ public class UserService implements UserServicePort {
 
         // UserDTO to User conversion
         User userEntity = userMapper.adminUserDtoToUserEntity(userDTO);
-    	
+
         Optional<User> existingUser = userPersistencePort.findOneByEmailIgnoreCase(userEntity.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userEntity.getId()))) {
             throw new EmailAlreadyUsedException();
@@ -162,13 +150,13 @@ public class UserService implements UserServicePort {
         }
 
         return Optional.of(userPersistencePort.findById(userEntity.getId())).filter(Optional::isPresent).map(Optional::get).map(user -> {
-            //this.clearUserCaches(user);
-            
+            // this.clearUserCaches(user);
+
             // UserDTO to User conversion
             AdminUserDTO userEntityDTO = userMapper.userEntityToAdminUserDto(userEntity);
-            
+
             userPersistencePort.update(userEntityDTO, user);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Changed Information for User: {}", user);
             return user;
         }).map(AdminUserDTO::new);
@@ -178,7 +166,7 @@ public class UserService implements UserServicePort {
     public void deleteUser(String login) {
         userPersistencePort.findOneByLogin(login).ifPresent(user -> {
             userPersistencePort.delete(user);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Deleted User: {}", user);
         });
     }
@@ -188,7 +176,7 @@ public class UserService implements UserServicePort {
 
         // UserDTO to User conversion
         User userEntity = userMapper.adminUserDtoToUserEntity(userDTO);
-    	
+
         Optional<User> existingUser = userPersistencePort.findOneByEmailIgnoreCase(userEntity.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             throw new EmailAlreadyUsedException();
@@ -197,7 +185,7 @@ public class UserService implements UserServicePort {
         if (!user.isPresent()) {
             throw new AccountResourceException("User could not be found");
         }
-        
+
         updateUser(userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getLangKey(), userEntity.getImageUrl());
     }
 
@@ -226,7 +214,7 @@ public class UserService implements UserServicePort {
             }
             user.setLangKey(langKey);
             user.setImageUrl(imageUrl);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Changed Information for User: {}", user);
         });
     }
@@ -241,7 +229,7 @@ public class UserService implements UserServicePort {
             }
             String encryptedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encryptedPassword);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Changed password for User: {}", user);
         });
     }
@@ -281,7 +269,7 @@ public class UserService implements UserServicePort {
         userPersistencePort.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore().forEach(user -> {
             log.debug("Deleting not activated user {}", user.getLogin());
             userPersistencePort.delete(user);
-            //this.clearUserCaches(user);
+            // this.clearUserCaches(user);
         });
     }
 
@@ -290,13 +278,11 @@ public class UserService implements UserServicePort {
      * 
      * @return a list of all the authorities.
      */
-   
 
     @Transactional(readOnly = true)
     @Override
     public Page<UserDTO> getAllPublicUsers(Pageable pageable) {
         return userPersistencePort.getAllPublicUsers(pageable);
     }
-
 
 }

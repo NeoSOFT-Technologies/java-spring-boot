@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 import com.springboot.rest.config.ApplicationProperties;
 
 import tech.jhipster.config.DefaultProfileUtil;

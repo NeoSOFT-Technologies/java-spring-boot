@@ -1,13 +1,10 @@
 package com.springboot.rest.domain.dto;
 
-import javax.persistence.Entity;
-
 import com.springboot.rest.infrastructure.entity.User;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 /**
  * A DTO representing a user, with only the public attributes.

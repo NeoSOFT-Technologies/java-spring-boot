@@ -202,6 +202,19 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
+	implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
+
+
+// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter
+implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: '2.2.8.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
+implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.5.5'
+
+
     // import JHipster dependencies BOM
     if (!project.hasProperty("gae")) {
         implementation platform("tech.jhipster:jhipster-dependencies:${jhipsterDependenciesVersion}")
@@ -216,6 +229,9 @@ dependencies {
     implementation group: "tech.jhipster", name: "jhipster-framework"
     implementation "javax.annotation:javax.annotation-api"
 <<<<<<< HEAD
+ //   implementation "org.springframework.boot:spring-boot-starter-cache"
+=======
+<<<<<<< HEAD
     implementation 'com.tngtech.archunit:archunit:0.21.0'
     // https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit5-api
 	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
@@ -224,6 +240,7 @@ dependencies {
 =======
 >>>>>>> refs/heads/Dev_ReadThrough_Strategy
     //implementation "org.springframework.boot:spring-boot-starter-cache"
+>>>>>>> branch 'main' of https://github.com/NeoSOFT-Technologies/java-spring-boot.git
     implementation "io.dropwizard.metrics:metrics-core"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
@@ -240,6 +257,9 @@ dependencies {
     //implementation "org.ehcache:ehcache"
     //implementation "org.hibernate:hibernate-jcache"
 <<<<<<< HEAD
+  //  implementation "org.hibernate:hibernate-entitymanager"
+=======
+<<<<<<< HEAD
     implementation "org.hibernate:hibernate-entitymanager"
 =======
     //implementation "org.hibernate:hibernate-entitymanager"
@@ -247,6 +267,7 @@ dependencies {
     implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
 	implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
 >>>>>>> refs/heads/Dev_ReadThrough_Strategy
+>>>>>>> branch 'main' of https://github.com/NeoSOFT-Technologies/java-spring-boot.git
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"
