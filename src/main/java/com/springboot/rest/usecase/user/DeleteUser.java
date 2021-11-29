@@ -1,10 +1,10 @@
 package com.springboot.rest.usecase.user;
 
-import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.infrastructure.entity.User;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.springboot.rest.domain.port.api.UserServicePort;
+import com.springboot.rest.infrastructure.entity.User;
 
 @Service
 @Transactional
@@ -29,8 +29,8 @@ public class DeleteUser {
     	userServicePort.removeNotActivatedUsers();
     }
     
-    public void clearUserCaches(User user) {
-    	userServicePort.clearUserCaches(user);
-    }
+//    public void clearUserCaches(User user) {
+//    	userServicePort.clearUserCaches(user);
+//    }
     
 }

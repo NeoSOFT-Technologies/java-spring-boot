@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.cache.CacheManager;
+//github.com/NeoSOFT-Technologies/java-spring-boot.git
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -75,10 +75,6 @@ class AccountResourceIT {
     private PasswordEncoder passwordEncoder;
     
     private final UserMapper userMapper = new UserMapper();
-    
-    @Autowired
-    private CacheManager cacheManager;
-
     @Autowired
     private MockMvc restAccountMockMvc;
 

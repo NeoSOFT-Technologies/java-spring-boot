@@ -1,9 +1,14 @@
 package com.springboot.rest.rest;
 
-import com.springboot.rest.IntegrationTest;
-import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.infrastructure.repository.UserRepository;
-import com.springboot.rest.security.AuthoritiesConstants;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +19,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.springboot.rest.IntegrationTest;
+import com.springboot.rest.infrastructure.entity.User;
+import com.springboot.rest.infrastructure.repository.UserRepository;
+import com.springboot.rest.security.AuthoritiesConstants;
 
 /**
  * Integration tests for the {@link UserResource} REST controller.
@@ -47,8 +50,8 @@ class PublicUserResourceIT {
 
     @BeforeEach
     public void setup() {
-        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).clear();
-        cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
+     //   cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).clear();
+      //  cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
     }
 
     @BeforeEach

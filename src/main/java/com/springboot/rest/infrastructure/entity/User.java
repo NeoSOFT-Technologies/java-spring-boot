@@ -33,9 +33,8 @@ import lombok.Data;
  */
 @Entity
 @Table(name = "jhi_user")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+// @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Data
-
 public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -96,22 +95,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-        name = "jhi_user_authority",
-        joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
-        inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
-    )
-   // @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "jhi_user_authority", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "authority_name", referencedColumnName = "name") })
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
-
-
 
     // Lowercase the login before saving it in database
     public void setLogin(String login) {
         this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -123,9 +115,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
         }
         return id != null && id.equals(((User) o).id);
     }
+
     @Override
     public int hashCode() {
-       
+
         return getClass().hashCode();
     }
 

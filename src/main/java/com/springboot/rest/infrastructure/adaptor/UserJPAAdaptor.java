@@ -47,13 +47,10 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     private final PasswordEncoder passwordEncoder;
 
-  //  private final CacheManager cacheManager;
-    
     private final UserMapper userMapper;
 
     public UserJPAAdaptor(PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
-   //     this.cacheManager = cacheManager;
         this.userMapper = userMapper;
     }
 
@@ -63,7 +60,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             // activate given user for the registration key.
             user.setActivated(true);
             user.setActivationKey(null);
-            this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             log.debug("Activated user: {}", user);
             return user;
         });
@@ -75,7 +72,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
             user.setPassword(passwordEncoder.encode(newPassword));
             user.setResetKey(null);
             user.setResetDate(null);
-            this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             return user;
         });
     }
@@ -84,7 +81,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
         return userRepository.findOneByEmailIgnoreCase(mail).filter(User::isActivated).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(Instant.now());
-            this.clearUserCaches(user);
+            // this.clearUserCaches(user);
             return user;
         });
     }
@@ -107,39 +104,39 @@ public class UserJPAAdaptor implements UserPersistencPort {
     public User save(AdminUserDTO userDTO, String password) {
 
         // UserDTO to User conversion
-    	User newUser = userMapper.adminUserDtoToUserEntity(userDTO);
-    	
-    	// new user gets initially a generated password
+        User newUser = userMapper.adminUserDtoToUserEntity(userDTO);
+
+        // new user gets initially a generated password
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setPassword(encryptedPassword);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
         if (userDTO.getEmail() != null) {
             newUser.setEmail(userDTO.getEmail().toLowerCase());
         }
-        if(setActivationKey) {
+        if (setActivationKey) {
             // new user is not active
             newUser.setActivated(false);
             // new user gets registration key
             newUser.setActivationKey(RandomUtil.generateActivationKey());
         } else {
-            //USER AUTOMATICALLY IS ACTIVATED WHEN REGISTERS
+            // USER AUTOMATICALLY IS ACTIVATED WHEN REGISTERS
             newUser.setActivated(true);
             newUser.setActivationKey(null);
         }
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        
+
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
-    
+
     public User update(AdminUserDTO userDTO, User user) {
-        
+
         // UserDTO to User conversion
-    	User newUser = userMapper.adminUserDtoToUserEntity(userDTO);
-    	
+        User newUser = userMapper.adminUserDtoToUserEntity(userDTO);
+
         user.setLogin(newUser.getLogin().toLowerCase());
         if (user.getEmail() != null) {
             user.setEmail(newUser.getEmail().toLowerCase());
@@ -147,45 +144,39 @@ public class UserJPAAdaptor implements UserPersistencPort {
         user.setActivated(newUser.isActivated());
         Set<com.springboot.rest.infrastructure.entity.Authority> managedAuthorities = user.getAuthorities();
         managedAuthorities.clear();
-        userDTO
-            .getAuthorities()
-            .stream()
-            .map(authorityRepository::findById)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .forEach(managedAuthorities::add);
-        
+        userDTO.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent).map(Optional::get).forEach(managedAuthorities::add);
+
         userRepository.save(user);
-        this.clearUserCaches(user);
+        // this.clearUserCaches(user);
         log.debug("Changed Information for User: {}", user);
         return user;
-    
-     
+
     }
+
     public User createUser(AdminUserDTO userDTO) {
-    	
+
         // UserDTO to User conversion
         User user = userMapper.adminUserDtoToUserEntity(userDTO);
-		if (userDTO.getEmail() != null) {
-			user.setEmail(userDTO.getEmail().toLowerCase());
-		}
-		if (userDTO.getLangKey() == null) {
-			user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language } else {
-			user.setLangKey(userDTO.getLangKey());
-		}
-		String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
-		user.setPassword(encryptedPassword);
-		user.setResetKey(RandomUtil.generateResetKey());
-		user.setResetDate(Instant.now());
-		user.setActivated(true);
-		if (userDTO.getAuthorities() != null) {
-			Set<Authority> authorities = userDTO.getAuthorities().stream().map(authorityRepository::findById)
-					.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
-			user.setAuthorities(authorities);
-		}	 
-        
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        if (userDTO.getLangKey() == null) {
+            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language }
+                                                         // else {
+            user.setLangKey(userDTO.getLangKey());
+        }
+        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        user.setPassword(encryptedPassword);
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        user.setActivated(true);
+        if (userDTO.getAuthorities() != null) {
+            Set<Authority> authorities = userDTO.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
+            user.setAuthorities(authorities);
+        }
+
         userRepository.save(user);
-        this.clearUserCaches(user);
+        // this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
     }
@@ -196,7 +187,7 @@ public class UserJPAAdaptor implements UserPersistencPort {
         }
         userRepository.delete(existingUser);
         userRepository.flush();
-        this.clearUserCaches(existingUser);
+
         return true;
     }
 
@@ -225,37 +216,28 @@ public class UserJPAAdaptor implements UserPersistencPort {
 
     }
 
-    private void clearUserCaches(User user) {
-//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-//        if (user.getEmail() != null) {
-//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-//        }
-    }
-
     public Optional<User> findOneByResetKey(String key) {
         return userRepository.findOneByResetKey(key);
     }
 
     @Override
     public Page<UserDTO> getAllUsers(Pageable pageable) {
-        
+
         return null;
     }
-    
-  public Page<UserDTO> getAllPublicUsers(Pageable pageable) {
-      return userRepository.findAllByIdNotNullAndActivatedIsTrue(pageable).map(UserDTO::new);
-  }
-    
+
+    public Page<UserDTO> getAllPublicUsers(Pageable pageable) {
+        return userRepository.findAllByIdNotNullAndActivatedIsTrue(pageable).map(UserDTO::new);
+    }
+
     @Override
     public Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String login) {
-      return  userRepository
-        .findOneWithAuthoritiesByEmailIgnoreCase(login)       ;
+        return userRepository.findOneWithAuthoritiesByEmailIgnoreCase(login);
     }
-    
+
     @Override
     public Optional<User> findOneWithAuthoritiesByLogin(String login) {
-      return  userRepository
-        .findOneWithAuthoritiesByLogin(login)       ;
+        return userRepository.findOneWithAuthoritiesByLogin(login);
     }
- 
+
 }
