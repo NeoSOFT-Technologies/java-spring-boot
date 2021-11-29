@@ -1,4 +1,4 @@
-package com.springboot.rest.usecase.sampleentity;
+package com.springboot.rest.usecase.CacheAside;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
@@ -24,50 +24,51 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
+import com.springboot.rest.domain.dto.CacheAsideDTO;
+import com.springboot.rest.domain.port.api.CacheAsideServicePort;
 import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
+import com.springboot.rest.domain.port.spi.CacheAsidePersistencePort;
 import com.springboot.rest.domain.port.spi.UserPersistencPort;
 import com.springboot.rest.domain.service.UserService;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
 import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.mapper.CacheAsideMapper;
 import com.springboot.rest.mapper.UserMapper;
 import com.springboot.rest.security.AuthoritiesConstants;
+import com.springboot.rest.usecase.CacheAside.DeleteCacheAside;
 
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-class DeleteSampleEntityTest {
+class DeleteCacheAsideTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private CacheAsideMapper sampleEntityMapper;
+    private CacheAsideEntity sampleEntity;
+    private CacheAsideDTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private CacheAsideServicePort sampleEntityServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private CacheAsidePersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
-    private DeleteSampleEntity deleteSampleEntity;
+    private DeleteCacheAside deleteSampleEntity;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
+		sampleEntity = new CacheAsideEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
 		sampleEntity.setPhone(2848);
 		sampleEntity.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
-        deleteSampleEntity = new DeleteSampleEntity(sampleEntityServicePort);
+        sampleEntityDto = new CacheAsideDTO(sampleEntity);
+        deleteSampleEntity = new DeleteCacheAside(sampleEntityServicePort);
     }
     
 	@Test
@@ -76,10 +77,11 @@ class DeleteSampleEntityTest {
 	}
 	
     @Test
-    void deleteSampleEntity() {
+    Boolean deleteSampleEntity() {
     	Mockito.doNothing().when(sampleEntityServicePort)
 		.deleteById(sampleEntity.getId());
     	deleteSampleEntity.deleteById(sampleEntity.getId());
+    	return true;
     }
  
 }

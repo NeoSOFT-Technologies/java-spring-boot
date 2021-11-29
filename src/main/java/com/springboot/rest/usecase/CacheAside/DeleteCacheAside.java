@@ -1,16 +1,16 @@
-package com.springboot.rest.usecase.sampleentity;
+package com.springboot.rest.usecase.CacheAside;
 
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
+import com.springboot.rest.domain.port.api.CacheAsideServicePort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class DeleteSampleEntity {
+public class DeleteCacheAside {
 
-    private final SampleEntityServicePort sampleEntityServicePort;
+    private final CacheAsideServicePort sampleEntityServicePort;
 
-    public DeleteSampleEntity(SampleEntityServicePort sampleEntityServicePort) {
+    public DeleteCacheAside(CacheAsideServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 

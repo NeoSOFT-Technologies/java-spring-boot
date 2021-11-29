@@ -1,23 +1,25 @@
 package com.springboot.rest.infrastructure.entity;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
-
-
-import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * A A.
  */
 @Entity
 @Data
-@Table(name = "a")
+@Table(name = "cacheAside")
 
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class SampleEntity implements Serializable {
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class CacheAsideEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,25 +40,25 @@ public class SampleEntity implements Serializable {
     private Integer phone;
 
 
-    public SampleEntity name(String name) {
+    public CacheAsideEntity name(String name) {
         this.name = name;
         return this;
     }
 
 
-    public SampleEntity password(String password) {
+    public CacheAsideEntity password(String password) {
         this.password = password;
         return this;
     }
 
 
-    public SampleEntity age(Integer age) {
+    public CacheAsideEntity age(Integer age) {
         this.age = age;
         return this;
     }
 
 
-    public SampleEntity phone(Integer phone) {
+    public CacheAsideEntity phone(Integer phone) {
         this.phone = phone;
         return this;
     }
@@ -70,10 +72,10 @@ public class SampleEntity implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SampleEntity)) {
+        if (!(o instanceof CacheAsideEntity)) {
             return false;
         }
-        return id != null && id.equals(((SampleEntity) o).id);
+        return id != null && id.equals(((CacheAsideEntity) o).id);
     }
 
     @Override

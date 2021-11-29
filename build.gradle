@@ -137,7 +137,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
-            password "achhadata"
+            password "root"
 
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName "basicSample"
@@ -148,7 +148,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
-            password "achhadata"
+            password "root"
 
             changeLogFile project.ext.diffChangelogFile
             referenceUrl "hibernate:spring:com.springboot.rest.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
@@ -201,9 +201,18 @@ dependencies {
 
     // Use ", version: jhipsterDependenciesVersion, changing: true" if you want
     // to use a SNAPSHOT release instead of a stable release
+    
+    
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
     implementation group: "tech.jhipster", name: "jhipster-framework"
     implementation "javax.annotation:javax.annotation-api"
-    implementation "org.springframework.boot:spring-boot-starter-cache"
+    implementation 'com.tngtech.archunit:archunit:0.21.0'
+    // https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit5-api
+	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
+    
+    
+    //implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "io.dropwizard.metrics:metrics-core"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
@@ -212,13 +221,13 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     implementation "com.fasterxml.jackson.core:jackson-annotations"
     implementation "com.fasterxml.jackson.core:jackson-databind"
-    implementation "javax.cache:cache-api"
+    //implementation "javax.cache:cache-api"
     implementation "org.hibernate:hibernate-core"
     implementation "com.zaxxer:HikariCP"
     implementation "org.apache.commons:commons-lang3"
     implementation "javax.transaction:javax.transaction-api"
-    implementation "org.ehcache:ehcache"
-    implementation "org.hibernate:hibernate-jcache"
+    //implementation "org.ehcache:ehcache"
+    //implementation "org.hibernate:hibernate-jcache"
     implementation "org.hibernate:hibernate-entitymanager"
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"

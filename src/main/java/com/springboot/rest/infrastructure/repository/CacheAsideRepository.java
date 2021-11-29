@@ -1,6 +1,6 @@
 package com.springboot.rest.infrastructure.repository;
 
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SampleEntityRepository extends JpaRepository<SampleEntity, Long> {}
+public interface CacheAsideRepository extends JpaRepository<CacheAsideEntity, Long> {
+	
+	boolean deleteById(long id);
+}

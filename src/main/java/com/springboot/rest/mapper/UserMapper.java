@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.SampleEntityDTO;
+import com.springboot.rest.domain.dto.CacheAsideDTO;
 import com.springboot.rest.domain.dto.UserDTO;
 import com.springboot.rest.infrastructure.entity.Authority;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
 import com.springboot.rest.infrastructure.entity.User;
 
 /**

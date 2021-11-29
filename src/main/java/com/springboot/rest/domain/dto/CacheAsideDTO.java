@@ -1,7 +1,7 @@
 package com.springboot.rest.domain.dto;
 
 
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class SampleEntityDTO {
+public class CacheAsideDTO {
 
     private Long id;
 
@@ -26,7 +26,7 @@ public class SampleEntityDTO {
 
  
 
-    public SampleEntityDTO(SampleEntity sampleEntity) {
+    public CacheAsideDTO(CacheAsideEntity sampleEntity) {
         this.id = sampleEntity.getId();
         this.name = sampleEntity.getName();
         this.password = sampleEntity.getPassword();

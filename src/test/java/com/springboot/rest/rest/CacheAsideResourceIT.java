@@ -1,10 +1,10 @@
 package com.springboot.rest.rest;
 
 import com.springboot.rest.IntegrationTest;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
-import com.springboot.rest.domain.service.SampleEntityService;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.infrastructure.repository.SampleEntityRepository;
+import com.springboot.rest.domain.port.spi.CacheAsidePersistencePort;
+import com.springboot.rest.domain.service.CacheAsideService;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
+import com.springboot.rest.infrastructure.repository.CacheAsideRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -29,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Integration tests for the {@link SampleEntityResource} REST controller.
+ * Integration tests for the {@link CacheAsideResource} REST controller.
  */
 @IntegrationTest
 @AutoConfigureMockMvc
 @WithMockUser
-class SampleEntityResourceIT {
+class CacheAsideResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -55,13 +55,13 @@ class SampleEntityResourceIT {
     private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
-    private SampleEntityRepository sampleEntityRepository;
+    private CacheAsideRepository sampleEntityRepository;
     
     @Mock
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private CacheAsidePersistencePort sampleEntityPersistencePort;
     
     @Mock
-    private SampleEntityService sampleEntityService;
+    private CacheAsideService sampleEntityService;
 
     @Autowired
     private EntityManager em;
@@ -69,7 +69,7 @@ class SampleEntityResourceIT {
     @Autowired
     private MockMvc restAMockMvc;
 
-    private SampleEntity sampleEntity;
+    private CacheAsideEntity sampleEntity;
 
     /**
      * Create an entity for this test.
@@ -77,8 +77,8 @@ class SampleEntityResourceIT {
      * This is sampleEntity static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SampleEntity createEntity(EntityManager em) {
-        SampleEntity sampleEntity = new SampleEntity().name(DEFAULT_NAME).password(DEFAULT_PASSWORD).age(DEFAULT_AGE).phone(DEFAULT_PHONE);
+    public static CacheAsideEntity createEntity(EntityManager em) {
+        CacheAsideEntity sampleEntity = new CacheAsideEntity().name(DEFAULT_NAME).password(DEFAULT_PASSWORD).age(DEFAULT_AGE).phone(DEFAULT_PHONE);
         return sampleEntity;
     }
 
@@ -88,8 +88,8 @@ class SampleEntityResourceIT {
      * This is sampleEntity static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static SampleEntity createUpdatedEntity(EntityManager em) {
-        SampleEntity sampleEntity = new SampleEntity().name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
+    public static CacheAsideEntity createUpdatedEntity(EntityManager em) {
+        CacheAsideEntity sampleEntity = new CacheAsideEntity().name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
         return sampleEntity;
     }
 
@@ -111,10 +111,10 @@ class SampleEntityResourceIT {
                 .andExpect(status().isCreated());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntitiesList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntitiesList = sampleEntityRepository.findAll();
         assertThat(sampleEntitiesList.size()).isEqualTo(databaseSizeBeforeCreate + 1);
 
-        SampleEntity testSampleEntity = sampleEntitiesList.get(sampleEntitiesList.size() - 1);
+        CacheAsideEntity testSampleEntity = sampleEntitiesList.get(sampleEntitiesList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(DEFAULT_AGE);
@@ -137,7 +137,7 @@ class SampleEntityResourceIT {
                 .andExpect(status().isBadRequest());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityListList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityListList = sampleEntityRepository.findAll();
         assertThat(sampleEntityListList.size()).isEqualTo(databaseSizeBeforeCreate);
     }
 
@@ -195,7 +195,7 @@ class SampleEntityResourceIT {
         int databaseSizeBeforeUpdate = sampleEntityRepository.findAll().size();
 
         // Update the sampleEntity
-        SampleEntity updatedSampleEntity = sampleEntityRepository.findById(sampleEntity.getId()).get();
+        CacheAsideEntity updatedSampleEntity = sampleEntityRepository.findById(sampleEntity.getId()).get();
         // Disconnect from session so that the updates on updatedA are not directly saved in db
         em.detach(updatedSampleEntity);
         updatedSampleEntity.name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
@@ -209,9 +209,9 @@ class SampleEntityResourceIT {
             .andExpect(status().isOk());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        CacheAsideEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(UPDATED_AGE);
@@ -232,7 +232,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -252,7 +252,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -268,7 +268,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -281,7 +281,7 @@ class SampleEntityResourceIT {
         int databaseSizeBeforeUpdate = sampleEntityRepository.findAll().size();
 
         // Update the sampleEntity using partial update
-        SampleEntity partialUpdatedSampleEntity = new SampleEntity();
+        CacheAsideEntity partialUpdatedSampleEntity = new CacheAsideEntity();
         partialUpdatedSampleEntity.setId(sampleEntity.getId());
 
         partialUpdatedSampleEntity.name(UPDATED_NAME);
@@ -295,9 +295,9 @@ class SampleEntityResourceIT {
             .andExpect(status().isOk());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        CacheAsideEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(DEFAULT_AGE);
@@ -313,7 +313,7 @@ class SampleEntityResourceIT {
         int databaseSizeBeforeUpdate = sampleEntityRepository.findAll().size();
 
         // Update the sampleEntity using partial update
-        SampleEntity partialUpdatedSampleEntity = new SampleEntity();
+        CacheAsideEntity partialUpdatedSampleEntity = new CacheAsideEntity();
         partialUpdatedSampleEntity.setId(sampleEntity.getId());
 
         partialUpdatedSampleEntity.name(UPDATED_NAME).password(UPDATED_PASSWORD).age(UPDATED_AGE).phone(UPDATED_PHONE);
@@ -327,9 +327,9 @@ class SampleEntityResourceIT {
             .andExpect(status().isOk());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
-        SampleEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
+        CacheAsideEntity testSampleEntity = sampleEntityList.get(sampleEntityList.size() - 1);
         assertThat(testSampleEntity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSampleEntity.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testSampleEntity.getAge()).isEqualTo(UPDATED_AGE);
@@ -352,7 +352,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -372,7 +372,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -388,7 +388,7 @@ class SampleEntityResourceIT {
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the SampleEntity in the database
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeUpdate);
     }
 
@@ -404,7 +404,7 @@ class SampleEntityResourceIT {
         restAMockMvc.perform(delete(ENTITY_API_URL_ID, sampleEntity.getId()).accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<SampleEntity> sampleEntityList = sampleEntityRepository.findAll();
+        List<CacheAsideEntity> sampleEntityList = sampleEntityRepository.findAll();
         assertThat(sampleEntityList.size()).isEqualTo(databaseSizeBeforeDelete - 1);
     }
 }

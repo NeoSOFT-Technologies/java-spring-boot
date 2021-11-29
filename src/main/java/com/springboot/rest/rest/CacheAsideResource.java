@@ -1,12 +1,12 @@
 package com.springboot.rest.rest;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.domain.dto.CacheAsideDTO;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
 import com.springboot.rest.rest.errors.BadRequestAlertException;
-import com.springboot.rest.usecase.sampleentity.CreateSampleEntity;
-import com.springboot.rest.usecase.sampleentity.DeleteSampleEntity;
-import com.springboot.rest.usecase.sampleentity.ReadSampleEntity;
-import com.springboot.rest.usecase.sampleentity.UpdateSampleEntity;
+import com.springboot.rest.usecase.CacheAside.CreateCacheAside;
+import com.springboot.rest.usecase.CacheAside.DeleteCacheAside;
+import com.springboot.rest.usecase.CacheAside.ReadCacheAside;
+import com.springboot.rest.usecase.CacheAside.UpdateCacheAside;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,29 +25,29 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * REST controller for managing {@link SampleEntity}.
+ * REST controller for managing {@link CacheAsideEntity}.
  */
 // @Component
 @RestController
 @RequestMapping("/api")
-public class SampleEntityResource {
+public class CacheAsideResource {
 
-    private final Logger log = LoggerFactory.getLogger(SampleEntityResource.class);
+    private final Logger log = LoggerFactory.getLogger(CacheAsideResource.class);
 
-    private static final String ENTITY_NAME = "a";
+    private static final String ENTITY_NAME = "cacheAside";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     //private final SampleEntityServicePort sampleEntityServicePort;
 
-    private final CreateSampleEntity createSampleEntity;
-    private final ReadSampleEntity readSampleEntity;
-    private final UpdateSampleEntity updateSampleEntity;
-    private final DeleteSampleEntity deleteSampleEntity;
+    private final CreateCacheAside createSampleEntity;
+    private final ReadCacheAside readSampleEntity;
+    private final UpdateCacheAside updateSampleEntity;
+    private final DeleteCacheAside deleteSampleEntity;
     
 
-    public SampleEntityResource(CreateSampleEntity createSampleEntity, ReadSampleEntity readSampleEntity, UpdateSampleEntity updateSampleEntity, DeleteSampleEntity deleteSampleEntity) {
+    public CacheAsideResource(CreateCacheAside createSampleEntity, ReadCacheAside readSampleEntity, UpdateCacheAside updateSampleEntity, DeleteCacheAside deleteSampleEntity) {
         //this.sampleEntityServicePort = sampleEntityServicePort;
         this.createSampleEntity=createSampleEntity;
         this.readSampleEntity=readSampleEntity;
@@ -72,19 +72,19 @@ public class SampleEntityResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new a, or with status {@code 400 (Bad Request)} if the a has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/sample-entity")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntityDTO> createSampleEntity(@RequestBody SampleEntityDTO sampleEntityDTO) throws URISyntaxException {
-        log.debug("REST request to save A : {}", sampleEntityDTO);
+    @PostMapping("/cacheAside-entity")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<CacheAsideDTO> createSampleEntity(@RequestBody CacheAsideDTO sampleEntityDTO) throws URISyntaxException {
+        log.debug("REST request to save cacheAside : {}", sampleEntityDTO);
         if (sampleEntityDTO.getId() != null) {
-            throw new BadRequestAlertException("A new a cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("cacheAside new a cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        SampleEntity sampleEntity = createSampleEntity.save(sampleEntityDTO);
-        SampleEntityDTO sampleEntityDTOResponse = new SampleEntityDTO(sampleEntity);
-
+        CacheAsideEntity sampleEntity = createSampleEntity.save(sampleEntityDTO);
+        CacheAsideDTO sampleEntityDTOResponse = new CacheAsideDTO(sampleEntity);
+        
         return ResponseEntity
-                .created(new URI("/api/sample-entity/" + sampleEntity.getId()))
+                .created(new URI("/api/cacheAside-entity/" + sampleEntity.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, sampleEntityDTOResponse.getId().toString()))
                 .body(sampleEntityDTOResponse);
 
@@ -100,15 +100,15 @@ public class SampleEntityResource {
      * or with status {@code 500 (Internal Server Error)} if the a couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/sample-entity/{id}")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntityDTO> updateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntityDTO sampleEntityDTO)
+    @PutMapping("/cacheAside-entity/{id}")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<CacheAsideDTO> updateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody CacheAsideDTO sampleEntityDTO)
             throws URISyntaxException {
-        log.debug("REST request to update A : {}, {}", id, sampleEntityDTO);
+        log.debug("REST request to update cacheAside : {}, {}", id, sampleEntityDTO);
 
-        SampleEntity sampleEntity = updateSampleEntity.update(id, sampleEntityDTO);
-        SampleEntityDTO sampleEntityDTOResponse = new SampleEntityDTO(sampleEntity);
-
+        CacheAsideEntity sampleEntity = updateSampleEntity.update(id, sampleEntityDTO);
+        CacheAsideDTO sampleEntityDTOResponse = new CacheAsideDTO(sampleEntity);
+        
         return ResponseEntity
                 .ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, sampleEntityDTOResponse.getId().toString()))
@@ -126,13 +126,13 @@ public class SampleEntityResource {
      * or with status {@code 500 (Internal Server Error)} if the a couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/sample-entity/{id}", consumes = "application/merge-patch+json")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<SampleEntity> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody SampleEntityDTO sampleEntityDTO)
+    @PatchMapping(value = "/cacheAside-entity/{id}", consumes = "application/merge-patch+json")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<CacheAsideEntity> partialUpdateSampleEntity(@PathVariable(value = "id", required = false) final Long id, @RequestBody CacheAsideDTO sampleEntityDTO)
             throws URISyntaxException {
-        log.debug("REST request to partial update A partially : {}, {}", id, sampleEntityDTO);
+        log.debug("REST request to partial update cacheAside partially : {}, {}", id, sampleEntityDTO);
 
-        Optional<SampleEntity> result = updateSampleEntity.patch(id, sampleEntityDTO);
+        Optional<CacheAsideEntity> result = updateSampleEntity.patch(id, sampleEntityDTO);
 
         return ResponseUtil.wrapOrNotFound(
                 result,
@@ -146,14 +146,14 @@ public class SampleEntityResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of aS in body.
      */
-    @GetMapping("/sample-entity")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public List<SampleEntityDTO> getAllSampleEntity() {
-        log.debug("REST request to get all SampleEntity");
+    @GetMapping("/cacheAside-entity")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public List<CacheAsideDTO> getAllSampleEntity() {
+        log.debug("REST request to get all cacheAside");
 
-        List<SampleEntityDTO> sampleEntityDTOS = readSampleEntity.findAll()
+        List<CacheAsideDTO> sampleEntityDTOS = readSampleEntity.findAll()
                 .stream()
-                .map(a -> new SampleEntityDTO(a))
+                .map(cacheAside -> new CacheAsideDTO(cacheAside))
                 .collect(Collectors.toList());
 
         return sampleEntityDTOS;
@@ -165,12 +165,12 @@ public class SampleEntityResource {
      * @param id the id of the a to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the a, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/sample-entity/{id}")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity getA(@PathVariable Long id) {
+    @GetMapping("/cacheAside-entity/{id}")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity getcacheAside(@PathVariable Long id) {
         log.debug("REST request to get A : {}", id);
 
-        Optional<SampleEntity> a = readSampleEntity.findById(id);
+        Optional<CacheAsideEntity> a = readSampleEntity.findById(id);
 
         return ResponseUtil.wrapOrNotFound(a);
     }
@@ -181,10 +181,10 @@ public class SampleEntityResource {
      * @param id the id of the a to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/sample-entity/{id}")
-    @Operation(summary = "/sample-entity", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<Void> deleteA(@PathVariable Long id) {
-        log.debug("REST request to delete A : {}", id);
+    @DeleteMapping("/cacheAside-entity/{id}")
+    @Operation(summary = "/cacheAside-entity", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<Boolean> deleteA(@PathVariable Long id) {
+        log.debug("REST request to delete cacheAside : {}", id);
         deleteSampleEntity.deleteById(id);
         return ResponseEntity
                 .noContent()
