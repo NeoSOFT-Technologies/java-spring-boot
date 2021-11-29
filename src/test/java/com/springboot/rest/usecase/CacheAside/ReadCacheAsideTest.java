@@ -1,10 +1,12 @@
-package com.springboot.rest.usecase.sampleentity;
+package com.springboot.rest.usecase.CacheAside;
 
-import com.springboot.rest.domain.dto.SampleEntityDTO;
-import com.springboot.rest.domain.port.api.SampleEntityServicePort;
-import com.springboot.rest.domain.port.spi.SampleEntityPersistencePort;
-import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.mapper.SampleEntityMapper;
+import com.springboot.rest.domain.dto.CacheAsideDTO;
+import com.springboot.rest.domain.port.api.CacheAsideServicePort;
+import com.springboot.rest.domain.port.spi.CacheAsidePersistencePort;
+import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
+import com.springboot.rest.mapper.CacheAsideMapper;
+import com.springboot.rest.usecase.CacheAside.ReadCacheAside;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,35 +26,35 @@ import static org.junit.Assert.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-class ReadSampleEntityTest {
+class ReadCacheAsideTest {
 	
 	private static final String DEFAULT_LOGIN = "johndoe";
 	
-    private SampleEntityMapper sampleEntityMapper;
-    private SampleEntity sampleEntity;
-    private SampleEntityDTO sampleEntityDto;
+    private CacheAsideMapper sampleEntityMapper;
+    private CacheAsideEntity sampleEntity;
+    private CacheAsideDTO sampleEntityDto;
     
     @Autowired
     @MockBean
-    private SampleEntityServicePort sampleEntityServicePort;
+    private CacheAsideServicePort sampleEntityServicePort;
     
     @MockBean
-    private SampleEntityPersistencePort sampleEntityPersistencePort;
+    private CacheAsidePersistencePort sampleEntityPersistencePort;
     
     @InjectMocks
-    private ReadSampleEntity readSampleEntity;
+    private ReadCacheAside readSampleEntity;
 
 	@BeforeEach
     public void init() {
-		sampleEntity = new SampleEntity();
+		sampleEntity = new CacheAsideEntity();
 		sampleEntity.setId(99l);
 		sampleEntity.setAge(20);
 		sampleEntity.setName("Test Sample");
 		sampleEntity.setPhone(2848);
 		sampleEntity.setPassword("Test@123");
 
-        sampleEntityDto = new SampleEntityDTO(sampleEntity);
-        readSampleEntity = new ReadSampleEntity(sampleEntityServicePort);
+        sampleEntityDto = new CacheAsideDTO(sampleEntity);
+        readSampleEntity = new ReadCacheAside(sampleEntityServicePort);
     }
     
 	@Test
@@ -62,7 +64,7 @@ class ReadSampleEntityTest {
 	
     @Test
     void findSampleEntitiesTest() {
-		List<SampleEntity> entities = new ArrayList<SampleEntity>();
+		List<CacheAsideEntity> entities = new ArrayList<CacheAsideEntity>();
 		
 		Mockito.when(sampleEntityServicePort.findAll().size() > 0)
 				.thenReturn(null);
@@ -80,7 +82,7 @@ class ReadSampleEntityTest {
     			.findById(sampleEntityDto.getId())
     			.isPresent())
     			.thenReturn(null);    	
-    	Optional<SampleEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
+    	Optional<CacheAsideEntity> fetchedSampleEntity = readSampleEntity.findById(sampleEntity.getId());
     	
     	//assertNull(fetchedSampleEntity);
     }

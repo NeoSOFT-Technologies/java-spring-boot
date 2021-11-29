@@ -1,16 +1,8 @@
 package com.springboot.rest.domain.service;
 
-import com.springboot.rest.domain.dto.AdminUserDTO;
-import com.springboot.rest.domain.dto.UserDTO;
-import com.springboot.rest.domain.port.api.UserServicePort;
-import com.springboot.rest.domain.port.spi.UserPersistencPort;
-import com.springboot.rest.infrastructure.entity.User;
-import com.springboot.rest.infrastructure.repository.UserRepository;
-import com.springboot.rest.mapper.UserMapper;
-import com.springboot.rest.security.SecurityUtils;
-import com.springboot.rest.rest.errors.AccountResourceException;
-import com.springboot.rest.rest.errors.BadRequestAlertException;
-import com.springboot.rest.rest.errors.LoginAlreadyUsedException;
+import java.time.Instant;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -20,11 +12,19 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tech.jhipster.security.RandomUtil;
 
-import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
+import com.springboot.rest.domain.dto.AdminUserDTO;
+import com.springboot.rest.domain.dto.UserDTO;
+import com.springboot.rest.domain.port.api.UserServicePort;
+import com.springboot.rest.domain.port.spi.UserPersistencPort;
+import com.springboot.rest.infrastructure.entity.User;
+import com.springboot.rest.mapper.UserMapper;
+import com.springboot.rest.rest.errors.AccountResourceException;
+import com.springboot.rest.rest.errors.BadRequestAlertException;
+import com.springboot.rest.rest.errors.LoginAlreadyUsedException;
+import com.springboot.rest.security.SecurityUtils;
+
+import tech.jhipster.security.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -41,7 +41,7 @@ public class UserService implements UserServicePort {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final CacheManager cacheManager;
+    //private final CacheManager cacheManager;
 
 	/*
 	 * public UserService(UserPersistencPort userRepository, PasswordEncoder
@@ -50,11 +50,11 @@ public class UserService implements UserServicePort {
 	 * cacheManager; }
 	 */
     
-    public UserService(UserPersistencPort userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, CacheManager cacheManager) {
+    public UserService(UserPersistencPort userRepository,UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userPersistencePort = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.cacheManager = cacheManager;
+        //this.cacheManager = cacheManager;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class UserService implements UserServicePort {
             // activate given user for the registration key.
             user.setActivated(true);
             user.setActivationKey(null);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             log.debug("Activated user: {}", user);
             return user;
         });
@@ -77,7 +77,7 @@ public class UserService implements UserServicePort {
             user.setPassword(passwordEncoder.encode(newPassword));
             user.setResetKey(null);
             user.setResetDate(null);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             return user;
         });
     }
@@ -87,7 +87,7 @@ public class UserService implements UserServicePort {
         return userPersistencePort.findOneByEmailIgnoreCase(mail).filter(User::isActivated).map(user -> {
             user.setResetKey(RandomUtil.generateResetKey());
             user.setResetDate(Instant.now());
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             return user;
         });
     }
@@ -118,7 +118,7 @@ public class UserService implements UserServicePort {
             return false;
         }
         userPersistencePort.delete(existingUser);
-        this.clearUserCaches(existingUser);
+        //this.clearUserCaches(existingUser);
         return true;
     }
 
@@ -161,13 +161,13 @@ public class UserService implements UserServicePort {
         }
 
         return Optional.of(userPersistencePort.findById(userEntity.getId())).filter(Optional::isPresent).map(Optional::get).map(user -> {
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             
             // UserDTO to User conversion
             AdminUserDTO userEntityDTO = userMapper.userEntityToAdminUserDto(userEntity);
             
             userPersistencePort.update(userEntityDTO, user);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             log.debug("Changed Information for User: {}", user);
             return user;
         }).map(AdminUserDTO::new);
@@ -177,7 +177,7 @@ public class UserService implements UserServicePort {
     public void deleteUser(String login) {
         userPersistencePort.findOneByLogin(login).ifPresent(user -> {
             userPersistencePort.delete(user);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             log.debug("Deleted User: {}", user);
         });
     }
@@ -225,7 +225,7 @@ public class UserService implements UserServicePort {
             }
             user.setLangKey(langKey);
             user.setImageUrl(imageUrl);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             log.debug("Changed Information for User: {}", user);
         });
     }
@@ -240,7 +240,7 @@ public class UserService implements UserServicePort {
             }
             String encryptedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encryptedPassword);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
             log.debug("Changed password for User: {}", user);
         });
     }
@@ -280,7 +280,7 @@ public class UserService implements UserServicePort {
         userPersistencePort.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore().forEach(user -> {
             log.debug("Deleting not activated user {}", user.getLogin());
             userPersistencePort.delete(user);
-            this.clearUserCaches(user);
+            //this.clearUserCaches(user);
         });
     }
 
@@ -299,10 +299,10 @@ public class UserService implements UserServicePort {
 
     @Override
     public void clearUserCaches(User user) {
-        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
-        if (user.getEmail() != null) {
-            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
-        }
+//        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+//        if (user.getEmail() != null) {
+//            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+//        }
     }
 
 }

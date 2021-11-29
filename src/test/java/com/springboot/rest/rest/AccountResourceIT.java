@@ -1,5 +1,30 @@
 package com.springboot.rest.rest;
 
+import static com.springboot.rest.rest.AccountResourceIT.TEST_USER_LOGIN;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.rest.IntegrationTest;
 import com.springboot.rest.config.Constants;
 import com.springboot.rest.domain.dto.AdminUserDTO;
@@ -13,34 +38,9 @@ import com.springboot.rest.infrastructure.entity.User;
 import com.springboot.rest.infrastructure.repository.AuthorityRepository;
 import com.springboot.rest.infrastructure.repository.UserRepository;
 import com.springboot.rest.mapper.UserMapper;
-import com.springboot.rest.security.AuthoritiesConstants;
 import com.springboot.rest.rest.vm.KeyAndPasswordVM;
 import com.springboot.rest.rest.vm.ManagedUserVM;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.cache.CacheManager;
-import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-
-import static com.springboot.rest.rest.AccountResourceIT.TEST_USER_LOGIN;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.springboot.rest.security.AuthoritiesConstants;
 
 /**
  * Integration tests for the {@link AccountResource} REST controller.
@@ -75,8 +75,8 @@ class AccountResourceIT {
     
     private final UserMapper userMapper = new UserMapper();
     
-    @Autowired
-    private CacheManager cacheManager;
+//    @Autowired
+//    private CacheManager cacheManager;
 
     @Autowired
     private MockMvc restAccountMockMvc;
@@ -88,7 +88,7 @@ class AccountResourceIT {
     public void init()
     {
       authorityPersistencePort= new AuthorityJPAAdaptor(authorityRepository);
-        userService = new UserService(userPersistencPort,userMapper,passwordEncoder,cacheManager);
+        userService = new UserService(userPersistencPort,userMapper,passwordEncoder);
         authorityService= new AuthorityService(authorityPersistencePort);
     }
     @Test

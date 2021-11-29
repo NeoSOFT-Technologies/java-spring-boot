@@ -16,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -27,6 +28,7 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication(scanBasePackages={"com.springboot.rest"})
 @EnableJpaRepositories
+@EnableCaching
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class BasicSampleApp {
 	
