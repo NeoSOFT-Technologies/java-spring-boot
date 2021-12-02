@@ -137,11 +137,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
-<<<<<<< HEAD
             password "root"
-=======
-            password "Mysql"
->>>>>>> refs/heads/Dev_ReadThrough_Strategy
 
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName "basicSample"
@@ -152,11 +148,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
-<<<<<<< HEAD
             password "root"
-=======
-            password "Mysql"
->>>>>>> refs/heads/Dev_ReadThrough_Strategy
 
             changeLogFile project.ext.diffChangelogFile
             referenceUrl "hibernate:spring:com.springboot.rest.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
@@ -228,19 +220,13 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plug
     
     implementation group: "tech.jhipster", name: "jhipster-framework"
     implementation "javax.annotation:javax.annotation-api"
-<<<<<<< HEAD
- //   implementation "org.springframework.boot:spring-boot-starter-cache"
-=======
-<<<<<<< HEAD
+
     implementation 'com.tngtech.archunit:archunit:0.21.0'
     // https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit5-api
-	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
     
     
-=======
->>>>>>> refs/heads/Dev_ReadThrough_Strategy
-    //implementation "org.springframework.boot:spring-boot-starter-cache"
->>>>>>> branch 'main' of https://github.com/NeoSOFT-Technologies/java-spring-boot.git
+
     implementation "io.dropwizard.metrics:metrics-core"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
@@ -256,18 +242,10 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plug
     implementation "javax.transaction:javax.transaction-api"
     //implementation "org.ehcache:ehcache"
     //implementation "org.hibernate:hibernate-jcache"
-<<<<<<< HEAD
-  //  implementation "org.hibernate:hibernate-entitymanager"
-=======
-<<<<<<< HEAD
     implementation "org.hibernate:hibernate-entitymanager"
-=======
-    //implementation "org.hibernate:hibernate-entitymanager"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
-	implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
->>>>>>> refs/heads/Dev_ReadThrough_Strategy
->>>>>>> branch 'main' of https://github.com/NeoSOFT-Technologies/java-spring-boot.git
+    implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"
