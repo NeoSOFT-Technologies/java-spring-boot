@@ -37,7 +37,6 @@ import com.springboot.rest.mapper.CacheAsideMapper;
 @AutoConfigureMockMvc
 @WithMockUser
 class CacheAsideAdaptor {
-	
 
 	private static final String DEFAULT_NAME = "Manish";
     private static final String UPDATED_NAME = "manish";
