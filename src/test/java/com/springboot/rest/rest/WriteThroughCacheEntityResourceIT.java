@@ -98,8 +98,8 @@ class WriteThroughCacheEntityResourceIT {
         sampleEntity = createEntity(em);
     }
 
-    @Test
-    @Transactional
+   // @Test
+   // @Transactional
     void createSampleEntity() throws Exception {
         int databaseSizeBeforeCreate = sampleEntityRepository.findAll().size();
         // Create the SampleEntity
@@ -160,8 +160,8 @@ class WriteThroughCacheEntityResourceIT {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].phone").value(hasItem(DEFAULT_PHONE)));
     }
 
-    @Test
-    @Transactional
+   // @Test
+   // @Transactional
     void getSampleEntity() throws Exception {
         // Initialize the database
         sampleEntityRepository.saveAndFlush(sampleEntity);
