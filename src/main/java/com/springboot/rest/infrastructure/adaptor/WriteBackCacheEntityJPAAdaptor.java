@@ -1,10 +1,10 @@
 package com.springboot.rest.infrastructure.adaptor;
 
-import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
-import com.springboot.rest.domain.port.spi.WriteThroughCacheEntityPersistencePort;
+import com.springboot.rest.domain.dto.WriteBackCacheEntityDTO;
+import com.springboot.rest.domain.port.spi.WriteBackCacheEntityPersistencePort;
 import com.springboot.rest.infrastructure.entity.SampleEntity;
-import com.springboot.rest.infrastructure.repository.WriteThroughCacheEntityRepository;
-import com.springboot.rest.mapper.WriteThroughCacheEntityMapper;
+import com.springboot.rest.infrastructure.repository.WriteBackCacheEntityRepository;
+import com.springboot.rest.mapper.WriteBackCacheEntityMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WriteThroughCacheEntityJPAAdaptor implements WriteThroughCacheEntityPersistencePort {
+public class WriteBackCacheEntityJPAAdaptor implements WriteBackCacheEntityPersistencePort {
 
     @Autowired
-    private final WriteThroughCacheEntityRepository sampleEntityRepository;
+    private final WriteBackCacheEntityRepository sampleEntityRepository;
 
-    private final WriteThroughCacheEntityMapper sampleEntityMapper;
+    private final WriteBackCacheEntityMapper sampleEntityMapper;
     
-    public WriteThroughCacheEntityJPAAdaptor(WriteThroughCacheEntityRepository sampleEntityRepository, WriteThroughCacheEntityMapper sampleEntityMapper) {
+    public WriteBackCacheEntityJPAAdaptor(WriteBackCacheEntityRepository sampleEntityRepository, WriteBackCacheEntityMapper sampleEntityMapper) {
         this.sampleEntityRepository = sampleEntityRepository;
         this.sampleEntityMapper = sampleEntityMapper;
     }
@@ -37,7 +37,7 @@ public class WriteThroughCacheEntityJPAAdaptor implements WriteThroughCacheEntit
         return sampleEntityRepository.findById(id);
     }
 
-    public SampleEntity save(WriteThroughCacheEntityDTO sampleEntityDTO) {
+    public SampleEntity save(WriteBackCacheEntityDTO sampleEntityDTO) {
 
         // SampleEntityDTO to SampleEntity conversion
     	SampleEntity sampleEntity = sampleEntityMapper.dtoToEntity(sampleEntityDTO);

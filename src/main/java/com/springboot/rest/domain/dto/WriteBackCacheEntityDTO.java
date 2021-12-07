@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class WriteThroughCacheEntityDTO {
+public class WriteBackCacheEntityDTO {
 
     private Long id;
 
@@ -25,7 +25,7 @@ public class WriteThroughCacheEntityDTO {
 
  
 
-    public WriteThroughCacheEntityDTO(SampleEntity sampleEntity) {
+    public WriteBackCacheEntityDTO(SampleEntity sampleEntity) {
         this.id = sampleEntity.getId();
         this.name = sampleEntity.getName();
         this.password = sampleEntity.getPassword();
