@@ -3,9 +3,6 @@ package com.springboot.rest.config.timezone;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.springboot.rest.IntegrationTest;
-import com.springboot.rest.repository.timezone.DateTimeWrapper;
-import com.springboot.rest.repository.timezone.DateTimeWrapperRepository;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.springboot.rest.IntegrationTest;
+import com.springboot.rest.repository.timezone.DateTimeWrapper;
+import com.springboot.rest.repository.timezone.DateTimeWrapperRepository;
 
 /**
  * Integration tests for the ZoneId Hibernate configuration.

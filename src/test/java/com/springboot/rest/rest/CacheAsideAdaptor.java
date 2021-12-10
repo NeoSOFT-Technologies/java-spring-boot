@@ -120,7 +120,6 @@ class CacheAsideAdaptor {
         // Get the sampleEntity
         restAMockMvc
             .perform(get(ENTITY_API_URL_ID, cacheAsideEntity.getId()))
-            .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(cacheAsideEntity.getId().intValue()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(DEFAULT_NAME))

@@ -34,7 +34,7 @@ public class CacheAsideResource {
 
     private final Logger log = LoggerFactory.getLogger(CacheAsideResource.class);
 
-    private static final String ENTITY_NAME = "cacheAside";
+    private static final String ENTITY_NAME = "a";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
