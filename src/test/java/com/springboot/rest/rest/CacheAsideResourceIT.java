@@ -48,7 +48,7 @@ class CacheAsideResourceIT {
     private static final Integer DEFAULT_PHONE = 1;
     private static final Integer UPDATED_PHONE = 2;
 
-    private static final String ENTITY_API_URL = "/api/sample-entity";
+    private static final String ENTITY_API_URL = "/api/cacheAside-entity";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
@@ -82,6 +82,7 @@ class CacheAsideResourceIT {
         return sampleEntity;
     }
 
+    
     /**
      * Create an updated entity for this test.
      *

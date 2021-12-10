@@ -16,7 +16,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Table(name = "cacheAside")
+@Table(name = "a")
 
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CacheAsideEntity implements Serializable {
