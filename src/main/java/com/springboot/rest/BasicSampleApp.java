@@ -1,13 +1,6 @@
 package com.springboot.rest;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-
-import javax.annotation.PostConstruct;
-
+import com.springboot.rest.config.ApplicationProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -20,12 +13,15 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-
-import com.springboot.rest.config.ApplicationProperties;
-
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
+
+import javax.annotation.PostConstruct;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
 
 @SpringBootApplication(scanBasePackages={"com.springboot.rest"})
 @EnableJpaRepositories
@@ -34,7 +30,7 @@ import tech.jhipster.config.JHipsterConstants;
 public class BasicSampleApp {
 	
 	// Creating ModelMapper Bean for DTO Mapping
-	//////////// ########### /////////////
+	//////////// ########### //////////////
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();

@@ -142,7 +142,11 @@ liquibase {
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
 
+
             password "Mysql"
+
+
+            password "root"
 
 
             changeLogFile "src/main/resources/config/liquibase/master.xml"
@@ -154,7 +158,11 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
+
             password "Omkar@00390039"
+
+
+            
 
 
             changeLogFile project.ext.diffChangelogFile
@@ -230,7 +238,7 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plug
 
     implementation 'com.tngtech.archunit:archunit:0.21.0'
     // https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit5-api
-	testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.21.0'
     
     
 
@@ -249,11 +257,13 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plug
     implementation "javax.transaction:javax.transaction-api"
     //implementation "org.ehcache:ehcache"
     //implementation "org.hibernate:hibernate-jcache"
+'
 
-    //implementation "org.hibernate:hibernate-entitymanager"
+
+    implementation "org.hibernate:hibernate-entitymanager"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
-	implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
+    implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
 
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"
