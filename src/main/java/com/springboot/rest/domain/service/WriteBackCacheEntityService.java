@@ -1,39 +1,59 @@
 package com.springboot.rest.domain.service;
 
-import com.springboot.rest.domain.dto.CacheAsideDTO;
-import com.springboot.rest.domain.port.api.CacheAsideServicePort;
-import com.springboot.rest.domain.port.spi.CacheAsidePersistencePort;
-import com.springboot.rest.infrastructure.entity.CacheAsideEntity;
-import com.springboot.rest.mapper.CacheAsideMapper;
-import com.springboot.rest.rest.errors.BadRequestAlertException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import org.redisson.api.RMapCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.springboot.rest.domain.dto.WriteBackCacheEntityDTO;
+import com.springboot.rest.domain.port.api.WriteBackCacheEntityServicePort;
+import com.springboot.rest.domain.port.spi.WriteBackCacheEntityPersistencePort;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
+import com.springboot.rest.mapper.WriteBackCacheEntityMapper;
+import com.springboot.rest.rest.errors.BadRequestAlertException;
 
 @Service
 @Transactional
-public class CacheAsideService implements CacheAsideServicePort {
+public class WriteBackCacheEntityService implements WriteBackCacheEntityServicePort {
 
+	
+	
+	@Autowired
+    private RMapCache<Long, SampleEntity> userRMapCache;
+	
+	
     private static final String ENTITY_NAME = "a";
 
-    private final CacheAsidePersistencePort sampleEntityPersistencePort;
-    private final CacheAsideMapper sampleEntityMapper;
+    private final WriteBackCacheEntityPersistencePort sampleEntityPersistencePort;
+    private final WriteBackCacheEntityMapper sampleEntityMapper;
 
-    public CacheAsideService(CacheAsidePersistencePort sampleEntityPersistencePort, CacheAsideMapper sampleEntityMapper) {
+    public WriteBackCacheEntityService(WriteBackCacheEntityPersistencePort sampleEntityPersistencePort, WriteBackCacheEntityMapper sampleEntityMapper) {
         this.sampleEntityPersistencePort = sampleEntityPersistencePort;
         this.sampleEntityMapper = sampleEntityMapper;
     }
 
     @Override
-    public CacheAsideEntity save(CacheAsideDTO sampleEntityDTO) {
-        return sampleEntityPersistencePort.save(sampleEntityDTO);
+    public SampleEntity save(WriteBackCacheEntityDTO sampleEntityDTO) {
+    	
+    	SampleEntity sampleEntity=sampleEntityMapper.dtoToEntity(sampleEntityDTO);
+    	
+    	   long random=(long) (Math.random()*(7000-4000+1)+4000);
+           this.userRMapCache.put(random, sampleEntity,60, TimeUnit.SECONDS);
+           //return userPort.createUser(user);
+           return sampleEntity;
+    	
+    	
+     //   return sampleEntityPersistencePort.save(sampleEntityDTO);
     }
 
     @Override
-    public CacheAsideEntity update(Long id, CacheAsideDTO sampleEntityDTO) {
+    public SampleEntity update(Long id, WriteBackCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -55,22 +75,28 @@ public class CacheAsideService implements CacheAsideServicePort {
     }
 
     @Override
-    public List<CacheAsideEntity> findAll() {
+    public List<SampleEntity> findAll() {
         return sampleEntityPersistencePort.findAll();
     }
 
     @Override
-    public Optional<CacheAsideEntity> findById(Long id) {
-        return sampleEntityPersistencePort.findById(id);
+    public Optional<SampleEntity> findById(Long id) {
+		
+    
+    	 return Optional.ofNullable(this.userRMapCache.get(id));
+       // return sampleEntityPersistencePort.findById(id);
+		 
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        return sampleEntityPersistencePort.deleteById(id);
+    public boolean  deleteById(Long id) {
+    	 this.userRMapCache.remove(id);
+    	 return true;
+      //  sampleEntityPersistencePort.deleteById(id);
     }
 
     @Override
-    public Optional<CacheAsideEntity> patch(Long id, CacheAsideDTO sampleEntityDTO) {
+    public Optional<SampleEntity> patch(Long id, WriteBackCacheEntityDTO sampleEntityDTO) {
 
         if (sampleEntityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -103,7 +129,7 @@ public class CacheAsideService implements CacheAsideServicePort {
                         }
                 )
                 .map(updatedA -> {
-                	CacheAsideDTO updatedSampleEntityDTO = sampleEntityMapper.entityToDto(updatedA);
+                	WriteBackCacheEntityDTO updatedSampleEntityDTO = sampleEntityMapper.entityToDto(updatedA);
                     sampleEntityPersistencePort.save(updatedSampleEntityDTO);
                     return updatedA;
                 });

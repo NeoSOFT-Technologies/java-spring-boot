@@ -13,14 +13,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import com.springboot.rest.domain.dto.ReadThroughEntityDTO;
+import com.springboot.rest.domain.dto.WriteBackCacheEntityDTO;
 import com.springboot.rest.infrastructure.entity.Authority;
-import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 /**
- * Mapper for the entity {@link ReadThroughEntity} and its DTO called {@link ReadThroughEntityDTO}.
+ * Mapper for the entity {@link SampleEntity} and its DTO called {@link WriteBackCacheEntityDTO}.
  *
  *With the hard-coded mappers, it could get very tedious in the future 
  *when we have lots of entities with many fields each
@@ -30,7 +29,7 @@ import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
  */
 
 @Component
-public class ReadThroughEntityMapper {
+public class WriteBackCacheEntityMapper {
 	
 	// inject ModelMapper
 	private ModelMapper modelMapper = new ModelMapper();
@@ -39,34 +38,34 @@ public class ReadThroughEntityMapper {
 
 	////////////////////////// 1. Using ModelMapper library /////////////////////
 	// Entity to DTO Mapping
-	public ReadThroughEntityDTO entityToDto(ReadThroughEntity readThroughEntity) {
-		return modelMapper.map(readThroughEntity, ReadThroughEntityDTO.class);
+	public WriteBackCacheEntityDTO entityToDto(SampleEntity sampleEntity) {
+		return modelMapper.map(sampleEntity, WriteBackCacheEntityDTO.class);
 	}
 	
-    public List<ReadThroughEntityDTO> entitiesToDTOs(List<ReadThroughEntity> readThroughEntities) {
-        return readThroughEntities.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
+    public List<WriteBackCacheEntityDTO> entitiesToDTOs(List<SampleEntity> sampleEntities) {
+        return sampleEntities.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
     }
 	
 	// DTO to entity Mapping
-	public ReadThroughEntity dtoToEntity(ReadThroughEntityDTO readThroughEntityDTO) {
-		return modelMapper.map(readThroughEntityDTO, ReadThroughEntity.class);
+	public SampleEntity dtoToEntity(WriteBackCacheEntityDTO sampleEntityDTO) {
+		return modelMapper.map(sampleEntityDTO, SampleEntity.class);
 	}
 	
-    public List<ReadThroughEntity> dtosToEntities(List<ReadThroughEntityDTO> readThroughEntityDTOs) {
-        return readThroughEntityDTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
+    public List<SampleEntity> dtosToEntities(List<WriteBackCacheEntityDTO> sampleEntityDTOs) {
+        return sampleEntityDTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
     }
 	
 	
 	//////////////////////////2. Hard-coded way /////////////////////
     
 	/*
-	 * public List<ReadThroughEntityDTO>
-	 * sampleEntitiesToSampleEntityDTOs(List<ReadThroughEntity> sampleEntities) { return
+	 * public List<SampleEntityDTO>
+	 * sampleEntitiesToSampleEntityDTOs(List<SampleEntity> sampleEntities) { return
 	 * sampleEntities.stream().filter(Objects::nonNull).map(this::
 	 * sampleEntityToSampleEntityDTO).collect(Collectors.toList()); }
 	 * 
-	 * public ReadThroughEntityDTO sampleEntityToSampleEntityDTO(ReadThroughEntity
-	 * sampleEntity) { return new ReadThroughEntityDTO(sampleEntity); }
+	 * public SampleEntityDTO sampleEntityToSampleEntityDTO(SampleEntity
+	 * sampleEntity) { return new SampleEntityDTO(sampleEntity); }
 	 * 
 	 * public List<User> sampleEntityDTOsToSampleEntities(List<AdminUserDTO>
 	 * userDTOs) { return userDTOs.stream().filter(Objects::nonNull).map(this::
@@ -105,23 +104,23 @@ public class ReadThroughEntityMapper {
         return authorities;
     }
 
-    public ReadThroughEntity sampleEntityFromId(Long id) {
+    public SampleEntity sampleEntityFromId(Long id) {
         if (id == null) {
             return null;
         }
-        ReadThroughEntity readThroughEntity = new ReadThroughEntity();
-        readThroughEntity.setId(id);
-        return readThroughEntity;
+        SampleEntity sampleEntity = new SampleEntity();
+        sampleEntity.setId(id);
+        return sampleEntity;
     }
 
     @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public ReadThroughEntityDTO toDtoId(ReadThroughEntity user) {
+    public WriteBackCacheEntityDTO toDtoId(SampleEntity user) {
         if (user == null) {
             return null;
         }
-        ReadThroughEntityDTO userDto = new ReadThroughEntityDTO();
+        WriteBackCacheEntityDTO userDto = new WriteBackCacheEntityDTO();
         userDto.setId(user.getId());
         return userDto;
     }
@@ -129,13 +128,13 @@ public class ReadThroughEntityMapper {
     @Named("idSet")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    public Set<ReadThroughEntityDTO> toDtoIdSet(Set<ReadThroughEntity> readThroughEntities) {
-        if (readThroughEntities == null) {
+    public Set<WriteBackCacheEntityDTO> toDtoIdSet(Set<SampleEntity> sampleEntities) {
+        if (sampleEntities == null) {
             return Collections.emptySet();
         }
 
-        Set<ReadThroughEntityDTO> sampleEntitySet = new HashSet<>();
-        for (ReadThroughEntity sampleEntityEntity : readThroughEntities) {
+        Set<WriteBackCacheEntityDTO> sampleEntitySet = new HashSet<>();
+        for (SampleEntity sampleEntityEntity : sampleEntities) {
             sampleEntitySet.add(this.toDtoId(sampleEntityEntity));
         }
 

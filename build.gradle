@@ -1,9 +1,12 @@
 buildscript {
     repositories {
         gradlePluginPortal()
+           maven {
+     	 url "https://plugins.gradle.org/m2/"
+    }
     }
     dependencies {
-    
+     classpath "com.gorylenko.gradle-git-properties:gradle-git-properties:2.4.0-rc1"
     }
 }
 
@@ -35,6 +38,7 @@ apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 apply plugin: "eclipse"
+apply plugin: "com.gorylenko.gradle-git-properties"
 
 if (project.hasProperty("prod") || project.hasProperty("gae")) {
     apply from: "gradle/profile_prod.gradle"
@@ -137,7 +141,13 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
+
+
+            password "Mysql"
+
+
             password "root"
+
 
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName "basicSample"
@@ -148,7 +158,12 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/basicSample"
             username "root"
-            password "root"
+
+            password "Omkar@00390039"
+
+
+            
+
 
             changeLogFile project.ext.diffChangelogFile
             referenceUrl "hibernate:spring:com.springboot.rest.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
@@ -242,10 +257,14 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plug
     implementation "javax.transaction:javax.transaction-api"
     //implementation "org.ehcache:ehcache"
     //implementation "org.hibernate:hibernate-jcache"
+'
+
+
     implementation "org.hibernate:hibernate-entitymanager"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation group: 'redis.clients', name: 'jedis', version: '2.9.0'
     implementation group: 'org.redisson', name: 'redisson', version: '3.16.0'
+
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"

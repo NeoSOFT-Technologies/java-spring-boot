@@ -1,6 +1,6 @@
 package com.springboot.rest.infrastructure.repository;
 
-import com.springboot.rest.infrastructure.entity.ReadThroughEntity;
+import com.springboot.rest.infrastructure.entity.SampleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ReadThroughEntityRepository extends JpaRepository<ReadThroughEntity, Long> {
+public interface WriteBackCacheEntityRepository extends JpaRepository<SampleEntity, Long> {
 	
-	ReadThroughEntity findById(long id);
-	boolean deleteById(long id);
+	
+	 SampleEntity findById(long id);
+	 boolean deleteById(long id);
 }

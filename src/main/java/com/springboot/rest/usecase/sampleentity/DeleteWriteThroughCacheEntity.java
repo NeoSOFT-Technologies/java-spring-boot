@@ -1,6 +1,6 @@
 package com.springboot.rest.usecase.sampleentity;
 
-import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.api.WriteBackCacheEntityServicePort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DeleteWriteThroughCacheEntity {
 
-    private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
+    private final WriteBackCacheEntityServicePort sampleEntityServicePort;
 
-    public DeleteWriteThroughCacheEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
+    public DeleteWriteThroughCacheEntity(WriteBackCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 

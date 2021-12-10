@@ -6,16 +6,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springboot.rest.domain.port.api.WriteThroughCacheEntityServicePort;
+import com.springboot.rest.domain.port.api.WriteBackCacheEntityServicePort;
 import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 @Service
 @Transactional
 public class ReadWriteThroughCacheEntity {
 
-    private final WriteThroughCacheEntityServicePort sampleEntityServicePort;
+    private final WriteBackCacheEntityServicePort sampleEntityServicePort;
 
-    public ReadWriteThroughCacheEntity(WriteThroughCacheEntityServicePort sampleEntityServicePort) {
+    public ReadWriteThroughCacheEntity(WriteBackCacheEntityServicePort sampleEntityServicePort) {
         this.sampleEntityServicePort = sampleEntityServicePort;
     }
 

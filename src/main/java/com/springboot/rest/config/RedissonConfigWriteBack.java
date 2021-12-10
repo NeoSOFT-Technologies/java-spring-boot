@@ -20,12 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.springboot.rest.domain.dto.WriteThroughCacheEntityDTO;
-import com.springboot.rest.infrastructure.adaptor.WriteThroughCacheEntityJPAAdaptor;
+import com.springboot.rest.domain.dto.WriteBackCacheEntityDTO;
+import com.springboot.rest.infrastructure.adaptor.WriteBackCacheEntityJPAAdaptor;
 import com.springboot.rest.infrastructure.entity.SampleEntity;
 
 @Configuration
-public class RedissonConfigWriteThrough implements InitializingBean {
+public class RedissonConfigWriteBack implements InitializingBean {
 
   //  protected SampleEntityDTO sampleEntityDTO ;
 
@@ -33,10 +33,10 @@ public class RedissonConfigWriteThrough implements InitializingBean {
 
     private RedissonClient redissonClient;
 
-    Logger logger = LoggerFactory.getLogger(RedissonConfigWriteThrough.class);
+    Logger logger = LoggerFactory.getLogger(RedissonConfigWriteBack.class);
 
     @Autowired
-    private WriteThroughCacheEntityJPAAdaptor userJPAAdapter;
+    private WriteBackCacheEntityJPAAdaptor userJPAAdapter;
     
     
     
@@ -45,7 +45,8 @@ public class RedissonConfigWriteThrough implements InitializingBean {
     public RMapCache<Long, SampleEntity> userRMapCache() {
         final RMapCache<Long, SampleEntity> userRMapCache = redissonClient.getMapCache(CACHE_NAME,MapOptions.<Long, SampleEntity>defaults()
                 .writer(getMapWriter()).loader(getMapLoader())
-                .writeMode(MapOptions.WriteMode.WRITE_THROUGH));
+                .writeMode(MapOptions.WriteMode.WRITE_BEHIND).writeBehindDelay(30000)//in milliseconds
+                .writeBehindBatchSize(5));
         return userRMapCache;
     }
 
@@ -64,7 +65,7 @@ public class RedissonConfigWriteThrough implements InitializingBean {
                 logger.info("*********************** write");
                 map.forEach( (k, v) -> {
                 	
-                	WriteThroughCacheEntityDTO sampleEntityDTO=new WriteThroughCacheEntityDTO();
+                	WriteBackCacheEntityDTO sampleEntityDTO=new WriteBackCacheEntityDTO();
                 	sampleEntityDTO.setId(v.getId());
                 	sampleEntityDTO.setAge(v.getAge());
                 	sampleEntityDTO.setName(v.getName());
@@ -94,7 +95,12 @@ public class RedissonConfigWriteThrough implements InitializingBean {
             public Iterable<Long> loadAllKeys() {
 
                 logger.info("*********************** Iterable<Long> loadAllKeys()");
-                List<Long> list = new ArrayList<Long>(){};
+                List<Long> list = new ArrayList<Long>(){
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;};
 
                 list.add(1L);
                 list.add(2L);
@@ -147,22 +153,7 @@ public class RedissonConfigWriteThrough implements InitializingBean {
     
     
     
-//    @Bean
-//    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-//        return (builder) -> builder
-//                .withCacheConfiguration("users",
-//                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
-//    }
-//
-//    @Bean
-//    public RedisCacheConfiguration cacheConfiguration() {
-//        return RedisCacheConfiguration.defaultCacheConfig()
-//                .entryTtl(Duration.ofMinutes(15))
-//                .disableCachingNullValues()
-//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-//    }
-//    
-//    
+
     
     
     
