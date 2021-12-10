@@ -95,7 +95,12 @@ public class RedissonConfigWriteBack implements InitializingBean {
             public Iterable<Long> loadAllKeys() {
 
                 logger.info("*********************** Iterable<Long> loadAllKeys()");
-                List<Long> list = new ArrayList<Long>(){};
+                List<Long> list = new ArrayList<Long>(){
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;};
 
                 list.add(1L);
                 list.add(2L);
